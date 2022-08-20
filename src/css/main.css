@@ -1,0 +1,104 @@
+@import url(../css/base/icon.css);
+@import url(../css/base/input.css);
+@import url(../css/base/button.css);
+@import url(../css/base/table.css);
+@import url(../css/base/dialog.css);
+@import url(../css/base/combobox.css);
+@import url(../css/base/toast.css);
+@import url(../css/base/comfirm-box.css);
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: OpenSans Bold;
+    src: url(../assets/Fonts/OpenSans-Bold.ttf);
+}
+@font-face {
+    font-family: OpenSans SemiBold;
+    src: url(../assets/Fonts/OpenSans-Semibold.ttf);
+}
+@font-face {
+    font-family: OpenSans Regular;
+    src: url(../assets/Fonts/OpenSans-Regular.ttf);
+}
+h1,h2,h3,h4,h5{
+    font-family: OpendSans Bold;
+}
+img{
+    height: 32px;
+    width: 32px;
+}
+h1{
+    line-height: 35px;
+}
+h2{
+    line-height: 32px;
+    font-size: 28px;
+}
+h3{
+    line-height: 27px;
+    font-size: 24px;
+}
+h4{
+    line-height: 24px;
+}
+h5{
+    line-height: 21px;
+}
+title,button{
+    font-family: OpenSans SemiBold;
+    line-height: 19px;
+}
+title{
+    font-size: 16px
+}
+button{
+    font-size: 13px;
+}
+body,label{
+    font-size: 13px;
+    font-family: OpenSans Regular;
+    line-height: 20px;
+}
+.text--small{
+    font-size: 12px;
+    line-height: 14px;
+}
+.seperate{
+    height: 32px;
+    width: 1px;
+    background-color: #bbb;
+}
+
+.text-align--center{
+    text-align: center;
+
+}
+.text-align--left{
+    text-align: left;
+    
+}
+.text-align--right{
+    text-align: right;
+}
+.item-align--center{
+    display: flex;
+    margin: auto;
+}
+.col-4{
+    grid-column: 2/5;
+}
+.main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.layout {
+    display: flex;
+    flex: 1;
+    height: 100vh;
+}

@@ -1,0 +1,15 @@
+.paging {
+    position: relative;
+}
+
+.paging>.paging-bar {
+    display: flex;
+    min-height: 50px;
+    align-items: center;
+    box-shadow: 0 -2px 5px -1px rgb(0 0 0 / 20%);
+    /* right: 0;
+    bottom: 0;
+    position: absolute;
+    left: 0; */
+
+}

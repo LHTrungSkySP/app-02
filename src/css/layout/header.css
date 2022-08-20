@@ -1,0 +1,35 @@
+.header{
+    height: 56px;
+}
+.header p{
+    font-size: 16px;
+}
+.header__navbar{
+    box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+}
+.main .header__navbar span,.main .header__navbar img,.main .header__navbar .seperate{
+    margin-left :  16px;
+}
+
+
+
+/* navbar */
+.navbar{
+    height: 48px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 16px;
+}
+
+.navbar--left {
+    display: flex;
+    align-items: center;
+
+}
+
+.navbar--right {
+    display: flex;
+    align-items: center;
+
+}

@@ -1,0 +1,13 @@
+@import url(./layout/header.css);
+@import url(./layout/main.css);
+@import url(./layout/menu.css);
+@import url(./layout/content.css);
+@import url(./layout/paging.css);
+
+
+.layout {
+    display: flex;
+    flex: 1;
+    height: 100vh;
+}
+

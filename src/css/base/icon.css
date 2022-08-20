@@ -1,0 +1,55 @@
+.icon--sprite{
+    height: 40px;
+    width: 40px;
+    background: url(../../assets/Icons/ic_sprites.svg);
+}
+.icon{
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    /* width: 40px; */
+}
+.icon-help{
+    height: 13px;
+    width: 14px;
+    background-position: -800px -433px
+}
+.icon--24{
+    height: 24px;
+    width: 24px;
+    font-size: 24px;
+
+}
+.icon--16{
+    height: 16px;
+    width: 16px;
+    font-size: 16px;
+
+}
+.icon--32{
+    height: 32px;
+    width: 32px;
+}
+
+/* icon of menu  */
+.icon-Toogle{
+	background-position: -1579px -89px;
+}
+.icon-MuonTra{
+    background-image: url(../../assets/Icons/ic_MuonTra.svg);
+}
+.icon-TongQuan{
+    background-image: url(../../assets/Icons/ic_TongQuan.svg);
+}
+.icon-ThietBi{
+    background-image: url(../../assets/Icons/ic_ThietBi.svg);
+}
+.icon-BaoCao{
+    background-image: url(../../assets/Icons/ic_BaoCao.svg);
+}
+.icon-HeThong{
+    background-image: url(../../assets/Icons/ic_HeThong.svg);
+}
+.icon-IconThietBi{
+    background-image: url(../../assets/Icons/ic_IconThietBi.svg);
+}

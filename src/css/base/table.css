@@ -1,0 +1,60 @@
+.table-container{
+    overflow-y: auto;
+    flex: 1;
+}
+.table{
+    width: 100%;
+    border-spacing: 0;
+}
+.table thead{
+    background-color: #f5f6fa;
+    height: 64px;
+    position: sticky;    
+    top: 0;
+}
+.table tr:hover{
+    background-color: #f5f6fa;
+}
+.table td,.table th{
+    height: 40px;
+    border: 1px solid #ddd;
+    padding: 8px;
+
+
+}
+.check-box{
+    height: 24px;
+    width: 24px;
+    background-position: center;
+    margin: auto;
+    /* z-index: 1; */
+}
+
+.check-box--normal{
+    background-image: url(../../assets/Icons/ic_Checkbox_Inactive.png);
+}
+.check-box--check{
+    background-image: url(../../assets/Icons/ic_Checkbox_Active.png);
+
+}
+.check-tick{
+    background-image: url(../../assets/Icons/ic_Check.png);
+}
+.icon-edit{
+    background-image: url(../../assets/Icons/ic_Edit.png);
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+    background-position: center;
+    margin: auto;
+}
+.icon-delete{
+    background-image: url(../../assets/Icons/ic_Remove.png);
+    display: inline-block;
+    height: 24px; 
+    width: 24px;
+    background-position: center;
+    margin: auto;
+}
+
+

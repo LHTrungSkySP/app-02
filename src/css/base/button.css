@@ -1,0 +1,63 @@
+.btn{
+    height: 32px;
+    padding: 0 12px;
+    border: none;
+    background-color: #03ae66;
+    color: #ffffff;
+    margin: 0 0 0 8px;
+    border-radius: 4px;
+    min-width: 100px;
+}
+.btn:not(.btn--disabled):hover{
+    background-color: #02bf70;
+    cursor: pointer;
+}
+.btn.btn--disabled{
+    background-color: #e0e0e0;
+    color: #a6a6a6;
+    cursor: not-allowed;
+}
+.btn--white {
+    background-color: #ffffff;
+    border: 1px solid #cecece ;
+    color: #3d3f4e;
+}
+.btn--white:not(.btn--disabled):hover{
+    background-color: #eaecef;
+}
+.btn--white.btn--disabled:not(.btn-icon){
+    background-color: #ffffff;
+}
+/* btn style 3  */
+.btn-double{
+    display: flex;
+}
+.btn-double button:first-child{
+    border-radius: 4px 0 0 4px;
+}
+.btn-double button:last-child{
+    border-radius: 0 4px 4px 0;
+    background-color: #009253;
+}
+.btn-double button:not(.btn--disabled):last-child:hover{
+    background-color: #05a25e;
+}
+.btn-double button:last-child.btn--disabled{
+    background-color: #d6d3d3;
+}
+.btn-icon{
+    display: flex;
+    align-items: center;
+    padding: 0;
+    width: 32px;
+    justify-content: center;
+    min-width: 10px;
+
+}
+.btn-double .btn-icon{
+    margin-left: 0;
+
+}
+.btn-icon.btn--white:not(.btn--disabled):hover{
+    background-color: #f8f8f8;
+}

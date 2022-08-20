@@ -1,0 +1,44 @@
+.input-container{
+    display: flex;
+    align-items: center;
+}
+.label-input{
+    color: #757575;
+    margin-right: 12px;
+    width: 60px;
+}
+.input{
+    height: 32px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    outline: none;
+    padding: 0 12px;
+    width: 100%;
+}
+.input:focus-visible{
+    background-color: #f5f5f5;
+}
+.input--correct{
+    border: 1px solid green;
+}
+.input--error{
+    border: 1px solid red;
+
+}
+.input-icon{
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+.input-include-icon{
+    position: relative;
+}
+.input-include-icon>input{
+    padding-right: 43px;
+}
+
+.input-icon.seperate{
+    right: 42px;
+    height: 24px;
+}

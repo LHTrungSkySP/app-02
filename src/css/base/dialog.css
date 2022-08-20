@@ -1,0 +1,117 @@
+
+/* căn giữa các thành phần bên trong dialog  */
+.dialog{
+    position:fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* bo tròn góc  phần nội dung của dialog + bg màu trắng + căn cứ đặt btn x*/
+.dialog__content{
+    background-color: #ffffff;
+    border-radius: 4px;
+    position: absolute;
+    display: flex;
+
+}
+.dialog__content .header{
+    padding-top: 16px;
+    font-size: 16px;
+}
+
+.dialog__content img.close-dialog{
+    position: absolute;
+    right: 12px;
+    top: 12px;
+}
+.dialog__content .dialog__msg-item{
+    margin-bottom: 16px;
+}
+.dialog__content .footer{
+    display: flex;
+    flex-direction: row-reverse;
+} 
+
+/* dialog add  */
+.dialog__content--left{
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 20px;
+    text-align: center;
+}
+.dialog__content--left>.title{
+    font-size: 16px;
+    margin: 8px 0  ;
+}
+.dialog__content--left>.img-selected{ 
+    background-image: url(../../assets/Icons/bg_chonanh.png);
+    background-position: center;
+    margin: auto;
+    height: 180px;
+    width: 180px;
+    position: relative;
+    background-size: cover;
+}
+.dialog__content--left>.img-selected>.btn{
+    border-radius: 0%;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+    margin-left: 0;
+}
+
+.dialog__content>.seperate{
+    margin-top: 24px;
+    height: auto;
+    margin-bottom: 36px;
+}
+
+/* dialog-add right  */
+.dialog__content--right{
+    padding: 0 16px;
+}
+.dialog-grid{
+    display: grid;
+    grid-template-columns: 100px 180px 95px 250px;
+    gap: 16px;
+
+}
+.dialog__content--right .header{
+    grid-column: 1/5;
+}
+
+.footer.dialog-grid__item{
+    grid-column: 1/5;
+    margin-bottom: 24px;
+}
+.tick-status-employee{
+    display: flex;
+    grid-column: 1/5;
+    margin-bottom: 24px;
+    align-items: center;
+
+}
+.tick-status-employee div.icon{
+    height: 24px;
+    width: 24px;
+    background-position: center;
+}
+.tick-status-employee div{
+    margin-left: 12px;
+
+}
+.tick-status-employee p{
+    margin-left: 12px;
+}
+.dateTime{
+    display: flex;
+}
+.dateTime{
+    display: flex;
+}
