@@ -29,112 +29,96 @@
             </div>
             <!-- row 1 -->
             <label class="dialog-grid__item" for="">Số hiệu cán bộ</label>
-            <input
-              v-model="txtEmployeeCode"
-              tabindex="1"
-              required
-              id="so_hieu_can_bo"
-              type="text"
-              name-property="Số hiệu cán bộ"
-              class="input"
-            />
+            <div class="input-container">
+              <input
+                ref="EmloyeeCode"
+                v-model="txtEmployeeCode"
+                tabindex="1"
+                required
+                id="so_hieu_can_bo"
+                type="text"
+                name-property="Số hiệu cán bộ"
+                class="input"
+                :class="{ 'border--red': !isValidate[0] }"
+              />
+              <div class="input input-msg" v-if="!isValidate[0]">
+                <div id="triangle-right"></div>
+                <p>Số hiệu cán bộ không được bỏ trống.</p>
+              </div>
+            </div>
 
-            <label class="dialog-grid__item">Học và tên</label>
-            <input
-              v-model="txtEmployeeFullName"
-              tabindex="2"
-              required
-              id="txtName"
-              type="text"
-              class="input"
-              name-property="Học và tên"
-            />
+            <label class="dialog-grid__item">Họ và tên</label>
+            <div class="input-container">
+              <input
+                v-model="txtEmployeeFullName"
+                tabindex="2"
+                required
+                id="txtName"
+                type="text"
+                class="input"
+                name-property="Học và tên"
+                :class="{ 'border--red': !isValidate[1] }"
+              />
+              <div class="input input-msg" v-if="!isValidate[1]">
+                <div id="triangle-right"></div>
+                <p>Họ tên cán bộ không được bỏ trống.</p>
+              </div>
+            </div>
 
             <!-- row 2 -->
 
             <label class="dialog-grid__item">Số điện thoại</label>
-            <input
-              v-model="txtNumberPhone"
-              tabindex="3"
-              required
-              id="txtPhone"
-              type=""
-              class="input"
-              name-property="Số điện thoại"
-            />
+            <div class="input-container">
+              <input
+                v-model="txtNumberPhone"
+                tabindex="3"
+                required
+                id="txtPhone"
+                type=""
+                class="input"
+                name-property="Số điện thoại"
+                :class="{ 'border--red': !isValidate[2] }"
+              />
+              <div class="input input-msg" v-if="!isValidate[2]">
+                <div id="triangle-right"></div>
+                <p>Số điện thoại cán bộ không được bỏ trống.</p>
+              </div>
+            </div>
+
+            <!-- email  -->
             <label class="dialog-grid__item">Email</label>
-            <input
-              v-model="txtEmployeeEmail"
-              tabindex="4"
-              required
-              id="txtEmail"
-              type="email"
-              class="input"
-              name-property="Email"
-            />
+            <div class="input-container">
+              <input
+                v-model="txtEmployeeEmail"
+                tabindex="4"
+                required
+                id="txtEmail"
+                type="email"
+                class="input"
+                name-property="Email"
+                :class="{ 'border--red': !isValidate[3] }"
+              />
+              <div class="input input-msg" v-if="!isValidate[3]">
+                <div id="triangle-right"></div>
+                <p>Email cán bộ không được bỏ trống.</p>
+              </div>
+            </div>
 
             <!-- row 3 -->
 
             <label class="dialog-grid__item">Tổ bộ môn</label>
-            <TheCombobox :listOption="listOptionOfGroup"/>
-
+            <TheCombobox :listOption="listOptionOfGroup" />
 
             <label class="dialog-grid__item">QL theo môn</label>
-            <TheComboboxCheck :listOption="listOptionOfSubject"/>
-            <!-- <div class="combobox">
-              <div class="combobox__feild">
-                <input
-                  tabindex="6"
-                  id="input_cbx_Ql_theo_mon"
-                  type="text"
-                  class="input combobox__input"
-                />
-                <button
-                  id="btn_ql_theo_mon"
-                  class="combobox__btn btn-icon btn--white"
-                >
-                  <img
-                    class="icon--24"
-                    src="../../../assets/Icons/ic_Chevron.png"
-                    alt=""
-                  />
-                </button>
-              </div>
-
-              <div id="cbx_QL_theo_mon" class="combobox__selector">
-                <div class="combobox__option">Kho phòng chung</div>
-                <div class="combobox__option">Phòng Toán-Lý-Hóa</div>
-                <div class="combobox__option">Phòng họp</div>
-              </div>
-            </div> -->
+            <TheComboboxCheck :listOption="listOptionOfSubject" />
             <!-- row 4 -->
             <label class="dialog-grid__item">QL kho, phòng</label>
-            <div class="combobox col-4">
-              <div class="combobox__feild">
-                <input
-                  tabindex="7"
-                  id="input_cbx_ql_kho_phong"
-                  type="text"
-                  class="input combobox__input"
-                />
-                <button
-                  id="btn_ql_phong_kho"
-                  class="combobox__btn btn-icon btn--white"
-                >
-                  <img
-                    class="icon--24"
-                    src="../../../assets/Icons/ic_Chevron.png"
-                    alt=""
-                  />
-                </button>
-              </div>
-
-              <div id="cbx_QL_phong_kho" class="combobox__selector" hidden>
-                <div class="combobox__option">Kho phòng chung</div>
-                <div class="combobox__option">Phòng Toán-Lý-Hóa</div>
-                <div class="combobox__option">Phòng họp</div>
-              </div>
-            </div>
+            <!-- <div class="combobox col-4"> -->
+            <TheComboboxCheck
+              type="big"
+              :listOption="listOptionOfStorageRoom"
+            />
+            <!-- </div> -->
             <div class="tick-status-employee dialog-grid__item">
               <div class="check-box--normal icon"></div>
               <div>Trình độ nghiệp vụ QLTB</div>
@@ -156,7 +140,7 @@
             </div>
 
             <div class="footer dialog-grid__item">
-              <button class="btn">Đồng ý</button>
+              <button @click="actionAgree" class="btn">Đồng ý</button>
               <button @click="closeDialog" class="btn btn--white close-dialog">
                 Đóng
               </button>
@@ -186,6 +170,9 @@ export default {
         });
     }
   },
+  mounted() {
+    this.$refs.EmloyeeCode.focus();
+  },
   props: {
     type: String,
     title: String,
@@ -202,14 +189,24 @@ export default {
         { option: "Tổ Văn phòng" },
       ],
       // combobox môn
-      listOptionOfSubject:[
-        {option: "Toán"},
-        {option: "Lý"},
-        {option: "Hóa"},
-        {option: "Sinh"},
-        {option: "Ngữ văn"},
-        {option: "Lịch sử"},
+      listOptionOfSubject: [
+        { option: "Toán" },
+        { option: "Lý" },
+        { option: "Hóa" },
+        { option: "Sinh" },
+        { option: "Ngữ văn" },
+        { option: "Lịch sử" },
       ],
+      // combobox quản lý phòng kho
+      listOptionOfStorageRoom: [
+        { option: "Phòng Toán - Lý" },
+        { option: "Phòng Hóa Sinh" },
+        { option: "Kho phòng chung" },
+      ],
+
+      // validate
+      isValidate: [true, true, true, true],
+
       txtEmployeeCode: "",
       txtEmployeeFullName: "",
       txtNumberPhone: "",
@@ -219,6 +216,44 @@ export default {
   methods: {
     closeDialog() {
       this.$emit("closeDialog");
+    },
+    actionAgree() {
+      if (this.type == "add") {
+        this.addEmployee();
+      } else {
+        this.editEmployee();
+      }
+    },
+    addEmployee() {
+      if (this.validate()) {
+        this.$emit("closeDialog", "success");
+      }
+    },
+    editEmployee() {
+      this.validate();
+    },
+    validate() {
+      this.isValidate = [true, true, true, true];
+      if (this.txtEmployeeCode == "") {
+        // alert("không được để trống Số hiệu cán bộ");
+        this.isValidate[0] = false;
+      }
+      if (this.txtEmployeeFullName == "") {
+        // alert("không được để trống Họ và tên");
+        this.isValidate[1] = false;
+      }
+      if (this.txtNumberPhone == "") {
+        // alert("không được để trống Số điện thoại");
+        this.isValidate[2] = false;
+      }
+      if (this.txtEmployeeEmail == "") {
+        // alert("không được để trống Email");
+        this.isValidate[3] = false;
+      }
+      if (this.isValidate.includes(false)) {
+        return false;
+      }
+      return true;
     },
   },
 };
@@ -231,6 +266,14 @@ export default {
 @import url(../../../css/main.css);
 @import url(../../../css/layout.css);
 @import url(../../../css/base/dialog.css);
+@import url(../../../css/base/geometri.css);
+.border--red {
+  border-color: red;
+}
+.input-container {
+  position: relative;
+  display: block;
+}
 
 /* căn giữa các thành phần bên trong dialog  */
 </style>

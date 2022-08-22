@@ -48,7 +48,7 @@
     background-position: center;
     margin: auto;
 }
-.icon-delete{
+.icon-remove{
     background-image: url(../../assets/Icons/ic_Remove.png);
     display: inline-block;
     height: 24px; 

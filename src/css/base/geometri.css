@@ -1,0 +1,11 @@
+#triangle-right {
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-right: 10px solid #fb8787;
+    border-bottom: 6px solid transparent;
+    position: absolute;
+    top: 50%;
+    left: -7px;
+    transform: translateY(-50%);
+  }

@@ -1,5 +1,5 @@
 <template>
-  <div class="combobox">
+  <div class="combobox" :class="{ 'col-4': isBig }">
     <div class="combobox__feild">
       <input
         v-model="txtGroup"
@@ -20,7 +20,7 @@
       </button>
     </div>
 
-    <div id="cbx_to_bo_mon" class="combobox__selector" v-if="true">
+    <div class="combobox__selector" v-if="isShowCbx">
       <!-- header -->
       <div class="grid">
         <TheCheckBox
@@ -53,6 +53,7 @@ export default {
   },
   props: {
     listOption: Object,
+    type: String,
   },
   data() {
     return {
@@ -65,10 +66,17 @@ export default {
       // tổng row đc chọn
       countSeleceted: 0,
       // tổng nhân viên đc load trên trang
-      countOption: 6,
+      countOption: this.listOption.length,
+      isBig: false,
     };
   },
+  created() {    
+      if (this.type == "big") {
+        this.isBig = true;
+      }
+    },
   watch: {
+
     countSeleceted: function () {
       if (this.countSeleceted == 0) {
         this.isCheckAll = false;
@@ -97,19 +105,19 @@ export default {
     // check all check box
     toggleCheckAll() {
       this.isCheckAll = !this.isCheckAll;
-    //   if (this.isCheckAll) {
-    //     this.countSeleceted = this.countOption;
-    //   } else {
-    //     this.countSeleceted = 0;
-    //   }
+      //   if (this.isCheckAll) {
+      //     this.countSeleceted = this.countOption;
+      //   } else {
+      //     this.countSeleceted = 0;
+      //   }
     },
     // count checkbox have selected
-    conutSelected(isCheck,str) {
+    conutSelected(isCheck, str) {
       if (isCheck) {
-        this.txtGroup += str+" ";
+        this.txtGroup += str + " ";
         this.countSeleceted++;
       } else {
-         this.txtGroup=this.txtGroup.replace(str+" ","");
+        this.txtGroup = this.txtGroup.replace(str + " ", "");
         this.countSeleceted--;
       }
     },
@@ -120,6 +128,8 @@ export default {
 @import url(../../../css/base/button.css);
 @import url(../../../css/base/combobox.css);
 @import url(../../../css/base/input.css);
+@import url(../../../css/base/table.css);
+
 .grid {
   display: grid;
   grid-template-columns: 50px auto;

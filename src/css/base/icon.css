@@ -53,3 +53,22 @@
 .icon-IconThietBi{
     background-image: url(../../assets/Icons/ic_IconThietBi.svg);
 }
+
+/* toast icon  */
+.icon-fail{
+    background-image: url(../../assets/Icons/ic_ToastMessage_Fail.png);
+}
+.icon-info{
+    background-image: url(../../assets/Icons/ic_ToastMessage_Info.png);
+}
+.icon-success{
+    background-image: url(../../assets/Icons/ic_ToastMessage_Success.png);
+}
+.icon-warning{
+    background-image: url(../../assets/Icons/ic_ToastMessage_Warning.png);
+}
+
+/* header icon  */
+.icon-delete{
+    background-image: url(../../assets/Icons/ic_delete.png);
+}

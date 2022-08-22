@@ -1,7 +1,7 @@
 <template>
   <div
-    @mouseenter="toggleHover"
-    @mouseleave="toggleHover"
+    @mouseenter="onHover"
+    @mouseleave="offHover"
     @click="checkBox"
     class="checkBoxNoActive"
     :class="{ checkBoxActive: isCheck, checkBoxHover: isHover }"
@@ -26,9 +26,8 @@ export default {
     isCheckAll: function () {
       if (this.isCheckAll) {
         this.isCheck = true;
-      } 
-      else{
-         this.isCheck = false;
+      } else {
+        this.isCheck = false;
       }
     },
     isCheckHeader: function () {
@@ -39,6 +38,7 @@ export default {
       } else {
         this.isHover = true;
       }
+      this.offHover()
     },
   },
 
@@ -60,10 +60,15 @@ export default {
         this.isHover = true;
       }
     },
-    toggleHover() {
+    onHover() {
+      if (!this.isCheck) {
+        this.isHover = true;
+      }
+    },
+    offHover() {
       // kiểm tra xem nút đc ấn chưa nếu chưa ấn thì ok
       if (!this.isCheck) {
-        this.isHover = !this.isHover;
+        this.isHover = false;
       }
     },
   },

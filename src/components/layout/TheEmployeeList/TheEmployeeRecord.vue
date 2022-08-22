@@ -17,8 +17,8 @@
     </td>
     <td style="width: 80px">
       <div class="item-align--center">
-        <div @click="showDialogEdit" class="icon-edit icon"></div>
-        <div @click="showNotification" class="icon-delete icon"></div>
+        <div @click="editEmployee" class="icon-edit icon"></div>
+        <div @click="deleteEmployee" class="icon-remove icon"></div>
       </div>
     </td>
   </tr>
@@ -48,8 +48,14 @@ export default {
   methods: {
     toggleCheck(ischeck) {
       this.isSelected = ischeck;
-      this.$emit("conutSelected",ischeck);
+      this.$emit("conutSelected",ischeck,this.post.EmployeeCode);
     },
+    editEmployee(){
+      this.$emit("editEmployee",this.post.EmployeeCode)
+    },
+    deleteEmployee(){
+      this.$emit("deleteEmployee",this.post.EmployeeCode)
+    }
   },
 };
 </script>

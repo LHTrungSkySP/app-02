@@ -10,7 +10,7 @@
       @isDeleteSuccess="deleteSuccess"
       :isDeleteAllSelected="isDeleteAllSelected"
       @countEmployee="countEmployee"
-      @deleteAnSelected=""
+
     />
     <ThePaging :countEmployee="numberEmployee" />
   </div>

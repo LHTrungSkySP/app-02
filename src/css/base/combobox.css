@@ -22,7 +22,7 @@
     margin: 0;
     border-radius: 4px;
     background-color: #ffffff;
-    
+    padding-right: 32px;
 }
 .combobox__btn{    
     border-radius: 0 4px 4px 0;
