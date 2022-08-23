@@ -1,10 +1,8 @@
 <template>
   <div
-    @mouseenter="onHover"
-    @mouseleave="offHover"
     @click="checkBox"
     class="checkBoxNoActive"
-    :class="{ checkBoxActive: isCheck, checkBoxHover: isHover }"
+    :class="{ checkBoxNoActive: !isCheck, checkBoxActive: isCheck }"
   ></div>
 </template>
 <script>
@@ -13,7 +11,6 @@ export default {
   data() {
     return {
       isCheck: false,
-      isHover: false,
     };
   },
   components: {},
@@ -31,14 +28,7 @@ export default {
       }
     },
     isCheckHeader: function () {
-      // tuowgn tác với employeeList
       this.isCheck = this.isCheckHeader;
-      if (this.isCheck) {
-        this.isHover = false;
-      } else {
-        this.isHover = true;
-      }
-      this.offHover()
     },
   },
 
@@ -49,7 +39,8 @@ export default {
         this.$emit("toggleCheckAll");
       }
       // ấn nút ở tbody : đảo trạng thái, gửi sự kiện check lên row
-      else {
+      else{
+        // gửi trạng thái lên thằng cha
         this.isCheck = !this.isCheck;
         this.$emit("check", this.isCheck);
       }
@@ -58,17 +49,6 @@ export default {
         this.isHover = false;
       } else {
         this.isHover = true;
-      }
-    },
-    onHover() {
-      if (!this.isCheck) {
-        this.isHover = true;
-      }
-    },
-    offHover() {
-      // kiểm tra xem nút đc ấn chưa nếu chưa ấn thì ok
-      if (!this.isCheck) {
-        this.isHover = false;
       }
     },
   },
@@ -87,10 +67,10 @@ div {
 .checkBoxNoActive {
   background-image: url(../../assets/Icons/ic_Checkbox_Inactive.png);
 }
+.checkBoxNoActive:hover:not(.checkBoxActive) {
+  background-image: url(../../assets/Icons/ic_Checkbox_Hover.png);
+}
 .checkBoxActive {
   background-image: url(../../assets/Icons/ic_Checkbox_Active.png);
-}
-.checkBoxHover {
-  background-image: url(../../assets/Icons/ic_Checkbox_Hover.png);
 }
 </style>

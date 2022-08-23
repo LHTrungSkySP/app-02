@@ -7,7 +7,7 @@
           <input type="text" class="input" />
           <img
             class="input-icon icon--24"
-            src="../../../assets/Icons/Ic_seerch.png"
+            src="../../../../assets/Icons/Ic_seerch.png"
             alt=""
           />
           <div class="input-icon seperate"></div>
@@ -24,7 +24,7 @@
         
       >
         <div class="icon"></div>
-        <img @click="showDeleteAll" class="icon--24" src="../../../assets/Icons/ic_More.png" alt="" />
+        <img @click="showDeleteAll" class="icon--24" src="../../../../assets/Icons/ic_More.png" alt="" />
         <div @click="deleteAllSelected" class="btn__deleteAll" v-if="isShowDeleteAll">
           <div class="icon icon-delete icon--24"></div>
           <p>Xóa</p>
@@ -58,10 +58,10 @@ export default {
 };
 </script>
 <style scoped>
-@import url(../../../css/layout/header.css);
-@import url(../../../css/base/icon.css);
-@import url(../../../css/base/input.css);
-@import url(../../../css/base/button.css);
+@import url(@/css/layout/header.css);
+@import url(@/css/base/icon.css);
+@import url(@/css/base/input.css);
+@import url(@/css/base/button.css);
 #delete-all {
   position: relative;
 }

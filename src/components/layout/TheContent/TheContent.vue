@@ -1,30 +1,40 @@
 <template>
   <div class="content">
+    <!-- Header các chức năng tùy chọn  -->
     <TheHeaderEmployees
       @isShowDeleteAll="ShowBtnDeleteAll"
       @deleteAllSelected="deleteAllSelected"
       @showDialogAdd="isShowDialogAdd = !isShowDialogAdd"
       :isShowDeleteAll="isShowBtnDeleteAll"
     />
+
+    <!-- danh sách  -->
     <TheEmployeeList
       @isDeleteSuccess="deleteSuccess"
       :isDeleteAllSelected="isDeleteAllSelected"
       @countEmployee="countEmployee"
 
     />
+
+    <!-- chuyển trang  -->
     <ThePaging :countEmployee="numberEmployee" />
   </div>
+
+<!-- các dialog bổ sung chức năng  -->
+  <!-- dialog thêm nhân viên  -->
   <TheDialogEmployee
     type="add"
     title="Thêm hồ sơ Cán bộ, giáo viên"
     @closeDialog="closeDialog"
     v-if="isShowDialogAdd"
   />
-  <div id="toast">
+  <!-- <div id="toast">
     <Transition v-for="toast in listToast" :key="toast">
       <TheToast :type="toast.typeToast" msg="Thêm Cán bộ thành công" />
     </Transition>
-  </div>
+  </div> -->
+
+  <!-- dialog xác nhận xóa  -->
   <TheDialogConfirm
     @delete="deleteRecord"
     @close="closeDialogConfirm"
@@ -35,12 +45,15 @@
     v-if="isShowDialogConfirmDelete"
   />
 </template>
+
+
 <script>
-import TheEmployeeList from "../TheEmployeeList/TheEmployeeList.vue";
-import TheHeaderEmployees from "../TheEmployeeList/TheHeaderEmployees.vue";
+
+import TheEmployeeList from "./TheEmployeeList/TheEmployeeList.vue";
+import TheHeaderEmployees from "./TheEmployeeList/TheHeaderEmployees.vue";
 import ThePaging from "./ThePaging.vue";
 import TheDialogEmployee from "../dialog/TheDialogEmployee.vue";
-import TheToast from "@/components/base/TheToast.vue";
+// import TheToast from "@/components/base/TheToast.vue";
 import TheDialogConfirm from "../dialog/TheDialogConfirm.vue";
 
 export default {
@@ -50,43 +63,46 @@ export default {
     TheHeaderEmployees,
     ThePaging,
     TheDialogEmployee,
-    TheToast,
+    // TheToast,
     TheDialogConfirm,
   },
   data() {
     return {
-      listToast: [],
+      // listToast: [],
       // show dialog
+
       isShowDialogAdd: false,
       isShowDialogEdit: false,
-      numberEmployee: 0,
-      testShowToast: false,
-      typeToast: "",
       isShowDialogConfirmDelete: false,
+
       isDeleteAllSelected: false,
       isShowBtnDeleteAll: false,
+
+      numberEmployee: 0,
+      // testShowToast: false,
+      // typeToast: "",
     };
   },
   watch: {
-    typeToast: function () {
-      this.testShowToast = true;
-    },
-    testShowToast: function () {
-      setTimeout(() => (this.testShowToast = false), 5000);
-    },
-    listToast: function () {
-      alert(1)
+    // typeToast: function () {
+    //   this.testShowToast = true;
+    // },
+    // testShowToast: function () {
+    //   setTimeout(() => (this.testShowToast = false), 5000);
+    // },
+    // listToast: function () {
+    //   alert(1)
       
-    },
+    // },
   },
   methods: {
-    closeDialog(str) {
+    closeDialog() {
       this.isShowDialogAdd = !this.isShowDialogAdd;
-      if (str != undefined) {
-        this.listToast.push({ typeToast: str, msg: "Thêm thánh công" });
-        // setTimeout(() => (this.listToast.shift()), 2000);
-        // this.typeToast = str;
-      }
+      // if (str != undefined) {
+      //   this.listToast.push({ typeToast: str, msg: "Thêm thánh công" });
+      //   // setTimeout(() => (this.listToast.shift()), 2000);
+      //   // this.typeToast = str;
+      // }
     },
     closeDialogConfirm() {
       this.isShowDialogConfirmDelete = false;
@@ -116,7 +132,7 @@ export default {
 };
 </script>
 <style scoped>
-@import url(../../../css/layout/content.css);
+@import url(@/css/layout/content.css);
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;

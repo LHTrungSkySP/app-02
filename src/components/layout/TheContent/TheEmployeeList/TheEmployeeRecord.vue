@@ -1,7 +1,7 @@
 <template>
   <tr :class="{ 'bg-selected': isSelected }">
     <td>
-      <TheCheckBox :type="normal" :isCheckAll="isCheckAll" @check="toggleCheck"></TheCheckBox>
+      <TheCheckBox type="normal" :isCheckAll="isCheckAll" @check="toggleCheck"></TheCheckBox>
     </td>
     <td class="text-align--center">{{ post.EmployeeCode }}</td>
     <td>{{ post.FirstName }} {{ post.LastName }} {{ post.EmployeeName }}</td>
@@ -60,9 +60,9 @@ export default {
 };
 </script>
 <style scoped>
-@import url(../../../css/main.css);
-@import url(../../../css/base/table.css);
-@import url(../../../css/base/icon.css);
+@import url(@/css/main.css);
+@import url(@/css/base/table.css);
+@import url(@/css/base/icon.css);
 .bg-selected {
   background-color: #f5f6fa;
 }

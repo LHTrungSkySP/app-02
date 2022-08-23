@@ -167,8 +167,8 @@ export default {
 };
 </script>
 <style scoped>
-@import url(../../../css/main.css);
-@import url(../../../css/base/table.css);
-@import url(../../../css/base/icon.css);
-@import url(../../../css/base/button.css);
+@import url(@/css/main.css);
+@import url(@/css/base/table.css);
+@import url(@/css/base/icon.css);
+@import url(@/css/base/button.css);
 </style>
