@@ -19,7 +19,7 @@
       <div 
       class="combobox__option" 
       v-for="option in listOption" :key="option.name"
-      @click="selectOption(option.option)" 
+      @click="selectOption(option)" 
       >{{option.option}}</div>
     </div>
   </div>

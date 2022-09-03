@@ -169,6 +169,11 @@ export default {
           this.txtEmployeeCode = response.data;
         });
     }
+    axios.get("http://localhost:4112/api/Subjects").then((response) => {
+      for (var i = 0; i < response.data.length; i++) {
+        this.listOptionOfSubject.push(response.data[i].SubjectName);
+      }
+    });
   },
   mounted() {
     this.$refs.EmloyeeCode.focus();
@@ -189,14 +194,7 @@ export default {
         { option: "Tổ Văn phòng" },
       ],
       // combobox môn
-      listOptionOfSubject: [
-        { option: "Toán" },
-        { option: "Lý" },
-        { option: "Hóa" },
-        { option: "Sinh" },
-        { option: "Ngữ văn" },
-        { option: "Lịch sử" },
-      ],
+      listOptionOfSubject: [],
       // combobox quản lý phòng kho
       listOptionOfStorageRoom: [
         { option: "Phòng Toán - Lý" },

@@ -1,7 +1,7 @@
 <template>
   <div class="combobox__option grid">
     <TheCheckBox :type="normal" :isCheckAll="isCheckAll" @check="toggleCheck"/>
-    <p>{{post.option }}</p>
+    <p>{{post }}</p>
   </div>
 </template>
 <script>
@@ -26,7 +26,7 @@ export default {
       // selectedAll();
     },
     isSelected:function(){
-      this.$emit("conutSelected",this.isSelected,this.post.option);
+      this.$emit("conutSelected",this.isSelected,this.post);
 
     }
   },

@@ -25,7 +25,7 @@
       >
         <div class="icon"></div>
         <img @click="showDeleteAll" class="icon--24" src="../../../../assets/Icons/ic_More.png" alt="" />
-        <div @click="deleteAllSelected" class="btn__deleteAll" v-if="isShowDeleteAll">
+        <div @click="deleteAllSelected" class="btn__deleteAll" v-if="isShowBtnDeleteAll">
           <div class="icon icon-delete icon--24"></div>
           <p>Xóa</p>
         </div>
@@ -37,11 +37,11 @@
 export default {
   name: "TheHeaderEmployees",
   props:{
-    isShowDeleteAll: Boolean,
+    // isShowDeleteAll: Boolean,
   },
   data(){
     return{
-      // isShowDeleteAll: false,
+      isShowBtnDeleteAll: false,
     }
   },
   methods: {
@@ -52,7 +52,7 @@ export default {
       this.$emit("deleteAllSelected");
     },
     showDeleteAll(){
-      this.$emit("isShowDeleteAll")
+      this.isShowBtnDeleteAll=!this.isShowBtnDeleteAll;
     },
   },
 };

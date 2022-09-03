@@ -10,46 +10,19 @@ export default {
   name: "TheCheckBox",
   data() {
     return {
-      isCheck: false,
+      
     };
   },
   components: {},
   props: {
-    type: String,
-    isCheckAll: Boolean,
-    isCheckHeader: Boolean,
+    isCheck: Boolean,
   },
   watch: {
-    isCheckAll: function () {
-      if (this.isCheckAll) {
-        this.isCheck = true;
-      } else {
-        this.isCheck = false;
-      }
-    },
-    isCheckHeader: function () {
-      this.isCheck = this.isCheckHeader;
-    },
   },
 
   methods: {
     checkBox() {
-      // nút ở header, gửi sự kiện check all
-      if (this.type == "header") {
-        this.$emit("toggleCheckAll");
-      }
-      // ấn nút ở tbody : đảo trạng thái, gửi sự kiện check lên row
-      else{
-        // gửi trạng thái lên thằng cha
-        this.isCheck = !this.isCheck;
-        this.$emit("check", this.isCheck);
-      }
-      // bỏ hover khi nút được ấn ( nếu không ảnh hover sẽ đè lên ảnh active)
-      if (this.isCheck) {
-        this.isHover = false;
-      } else {
-        this.isHover = true;
-      }
+        this.$emit("checkBox");
     },
   },
 };

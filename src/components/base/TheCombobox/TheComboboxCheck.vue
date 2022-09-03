@@ -36,7 +36,7 @@
         @conutSelected="conutSelected"
         :isCheckAll="isCheckAll"
         v-for="post in this.listOption"
-        :key="post.EmployeeCode"
+        :key="post"
         :post="post"
       />
     </div>
