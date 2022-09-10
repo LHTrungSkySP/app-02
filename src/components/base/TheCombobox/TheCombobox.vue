@@ -18,23 +18,36 @@
     <div id="cbx_to_bo_mon" class="combobox__selector" v-if="isShowCbx">
       <div 
       class="combobox__option" 
-      v-for="option in listOption" :key="option.name"
+      v-for="option in listOption" :key="option"
       @click="selectOption(option)" 
-      >{{option.option}}</div>
+      >{{option}}</div>
     </div>
   </div>
 </template>
 <script>
+
 export default {
     name: "TheCombobox",
     props:{
         listOption: Object,
-    },
+        listOptionSelected: Object,
+        parentSpeak: Boolean,
+      },
     data(){
-        return{
-            isShowCbx: false,
-            txtGroup: "",
-        }
+      return{
+        isShowCbx: false,
+        txtGroup: this.listOptionSelected,
+      }
+    },
+    watch:{
+      parentSpeak: function(){
+        this.$emit("selectPost",this.txtGroup);
+      },
+      txtGroup: function(){
+        this.$emit("selectPost",this.txtGroup);
+      }
+    },
+    created() {
     },
     methods:{
         ShowCbx(){
@@ -44,6 +57,7 @@ export default {
             this.isShowCbx=false;
             this.txtGroup=str;
         }
+        
 
     }
 }
@@ -52,4 +66,8 @@ export default {
 @import url(../../../css/base/button.css);
 @import url(../../../css/base/combobox.css);
 @import url(../../../css/base/input.css);
+.combobox>.combobox__feild>.combobox__btn{
+  position: relative;
+    top: -100%;
+}
 </style>

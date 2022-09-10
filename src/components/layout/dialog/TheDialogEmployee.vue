@@ -96,53 +96,52 @@
                 type="email"
                 class="input"
                 name-property="Email"
-                :class="{ 'border--red': !isValidate[3] }"
+                :class="{ 'border--red': !isValidate[3]}"
               />
               <div class="input input-msg" v-if="!isValidate[3]">
                 <div id="triangle-right"></div>
                 <p>Email cán bộ không được bỏ trống.</p>
               </div>
             </div>
-
             <!-- row 3 -->
-
             <label class="dialog-grid__item">Tổ bộ môn</label>
-            <TheCombobox :listOption="listOptionOfGroup" />
-
+            <TheCombobox @selectPost="groupToPost" :parentSpeak="isPostAPI" :listOptionSelected="officer.groupName" :listOption="listOptionOfGroupName" />
             <label class="dialog-grid__item">QL theo môn</label>
-            <TheComboboxCheck :listOption="listOptionOfSubject" />
+            <TheComboboxCheck @selectPost="addSubjectPost" :dataIn="subjects" :listOption="listOptionOfSubjectName" />
             <!-- row 4 -->
             <label class="dialog-grid__item">QL kho, phòng</label>
             <!-- <div class="combobox col-4"> -->
             <TheComboboxCheck
+            @selectPost="addStorageRoomPost"
+            :dataIn="storageRooms"
               type="big"
-              :listOption="listOptionOfStorageRoom"
+              :listOption="listOptionOfStorageRoomName"
             />
-            <!-- </div> -->
+
+
+            <!-- trạng thái đào tạo -->
             <div class="tick-status-employee dialog-grid__item">
-              <div class="check-box--normal icon"></div>
-              <div>Trình độ nghiệp vụ QLTB</div>
-              <div class="check-box--normal icon"></div>
-              <div>Đang làm việc</div>
+              <div class="status">
+                <TheCheckBox @checkBox="isTrain=!isTrain" :isCheck="isTrain"/>
+                <div>Trình độ nghiệp vụ QLTB</div>
+              </div>
+              <div class="status">
+                <TheCheckBox @checkBox="isWork=!isWork" :isCheck="isWork" />
+                <div>Đang làm việc</div>
+              </div>
               <div class="dataTime">
                 <div class="input-container">
                   <label for="">Ngày nghỉ việc</label>
-
-                  <div><input type="date" name="" id="" /></div>
-
-                  <!-- <div class="input-include-icon">
-                                        <input type="text" class="input">
-                                        <img class="input-icon icon--24" src="../assets/Icons/Ic_seerch.png" alt="">
-                                        <div sty class="input-icon seperate"></div>
-                                    </div> -->
+                  <span><input type="date" name="" id="" /></span>
                 </div>
               </div>
             </div>
 
             <div class="footer dialog-grid__item">
-              <button @click="actionAgree" class="btn">Đồng ý</button>
+              <button @click="showComfirm" class="btn">Đồng ý</button>
               <button @click="closeDialog" class="btn btn--white close-dialog">
                 Đóng
+
               </button>
             </div>
           </div>
@@ -150,57 +149,63 @@
       </div>
     </div>
   </div>
+  <TheDialogConfirm
+  v-if="isShowConfirmAdd"
+  title="Thông báo thêm mới"
+  msg="Bạn có chắc chắn muốn thêm nhân viên bạn vừa nhập không?"
+  @close="isShowConfirmAdd=false"
+  @agree="addEmployee();"
+  />
+  <TheDialogConfirm
+  v-if="isShowConfirmEdit"
+  title="Thông báo sửa"
+  msg="Bạn có chắc chắn muốn sửa thông tin nhân viên bạn vừa chọn không?"
+  @close="isShowConfirmEdit=false"
+  @agree="editEmployee();"
+  />
 </template>
 <script>
 import axios from "axios";
 import TheCombobox from "@/components/base/TheCombobox/TheCombobox.vue";
 import TheComboboxCheck from "@/components/base/TheCombobox/TheComboboxCheck.vue";
+import TheCheckBox from "@/components/base/TheCheckBox.vue";
+import Employee from "@/javascript/Employee";
+import TheDialogConfirm from "./TheDialogConfirm.vue";
+// import Subject from "@/javascript/Subject";
+// import StorageRoom from "@/javascript/StorageRoom";
+import officerDetail from "@/javascript/OfficerDetail";
+// import group from "@/javascript/Group";
+
 export default {
   name: "TheDialog",
   components: {
     TheCombobox,
-    TheComboboxCheck,
+    TheComboboxCheck,TheCheckBox,TheDialogConfirm
   },
   created() {
-    if (this.type == "add") {
-      axios
-        .get("https://amis.manhnv.net/api/v1/Employees/NewEmployeeCode")
-        .then((response) => {
-          this.txtEmployeeCode = response.data;
-        });
-    }
-    axios.get("http://localhost:4112/api/Subjects").then((response) => {
-      for (var i = 0; i < response.data.length; i++) {
-        this.listOptionOfSubject.push(response.data[i].SubjectName);
-      }
-    });
+    this.callAPI();
   },
   mounted() {
     this.$refs.EmloyeeCode.focus();
   },
-  props: {
-    type: String,
-    title: String,
-  },
+  props: ["type","title","officerDetail"],
   data() {
     return {
+      isShowConfirmEdit:false,
+      isShowConfirmAdd: false,
+
+      isWork: false,
+      isTrain: false,
       // combobox tổ bộ môn
-      listOptionOfGroup: [
-        { option: "Tổ Toán - Tin" },
-        { option: "Tổ Lý - Hóa" },
-        { option: "Tổ Sinh - Sử - Địa" },
-        { option: "Tổ Anh văn" },
-        { option: "Tổ Ngữ văn" },
-        { option: "Tổ Văn phòng" },
-      ],
+      listOptionOfGroup: [],
       // combobox môn
       listOptionOfSubject: [],
       // combobox quản lý phòng kho
-      listOptionOfStorageRoom: [
-        { option: "Phòng Toán - Lý" },
-        { option: "Phòng Hóa Sinh" },
-        { option: "Kho phòng chung" },
-      ],
+      listOptionOfStorageRoom: [],
+
+      listOptionOfSubjectName:[],
+      listOptionOfStorageRoomName:[],
+      listOptionOfGroupName:[],
 
       // validate
       isValidate: [true, true, true, true],
@@ -209,26 +214,132 @@ export default {
       txtEmployeeFullName: "",
       txtNumberPhone: "",
       txtEmployeeEmail: "",
+
+      officer: Object ,
+      subjects: [],
+      storageRooms: [],
+
+      // sẵn sàng gọi api thêm hoạc sửa chưa
+      isPostAPI: false,
+
+      employee: Employee,
+      officerDetailPost:officerDetail, 
     };
   },
+  watch:{
+    groupPost: function(){
+      // alert(this.groupPost)      
+    }
+  },
   methods: {
-    closeDialog() {
-      this.$emit("closeDialog");
-    },
-    actionAgree() {
-      if (this.type == "add") {
-        this.addEmployee();
-      } else {
-        this.editEmployee();
+    showComfirm(){
+      if(this.type=="add"){
+        this.isShowConfirmAdd=true;
+      }
+      else if(this.type=="edit"){
+        this.isShowConfirmEdit=true;
       }
     },
+
+    addSubjectPost(ob){
+      var tam=[]
+      for(var i=0;i<ob.length;i++){
+        for(var j=0;j<this.listOptionOfSubject.length;j++){
+          if(this.listOptionOfSubject[j].SubjectName==ob[i]){
+            tam.push(this.listOptionOfSubject[j]);
+          }
+        }
+        // var pos=this.listOptionOfSubject.indexOf(ob[i]);
+        // =this.listOptionOfSubject[pos];
+      }
+      this.officerDetailPost.subjects=tam;
+    },
+    addStorageRoomPost(ob){
+      var tam=[]
+      this.storageRoomsPost=ob;
+      for(var i=0;i<ob.length;i++){
+        for(var j=0;j<this.listOptionOfStorageRoom.length;j++){
+          if(this.listOptionOfStorageRoom[j].StorageRoomName==ob[i]){
+            tam.push(this.listOptionOfStorageRoom[j]);
+          }
+        }
+        // var pos=this.listOptionOfSubject.indexOf(ob[i]);
+        // =this.listOptionOfSubject[pos];
+      }
+      this.officerDetailPost.storageRooms=tam;
+    },
+    closeDialog() {
+      this.$emit("closeDialog","fail");
+    },
+    // actionAgree() {
+    //   this.isPostAPI=true;
+    //   if (this.type == "add") {
+    //     this.addEmployee();
+    //   } else {
+    //     this.editEmployee();
+    //   }
+    // },
     addEmployee() {
+      // console.log(this.groupPost)
       if (this.validate()) {
-        this.$emit("closeDialog", "success");
+        this.officerDetailPost.officer.officerCode=this.txtEmployeeCode;
+        this.officerDetailPost.officer.officerName=this.txtEmployeeFullName;
+        this.officerDetailPost.officer.email=this.txtEmployeeEmail;
+        this.officerDetailPost.officer.phoneNumber=this.txtNumberPhone;
+        if(this.isTrain==true){
+          this.officerDetailPost.officer.emt=2;
+        }
+        else{
+          this.officerDetailPost.officer.emt=1;
+        }
+        if(this.isWork==true){
+          this.officerDetailPost.officer.workStatus=1;
+        }
+        else{
+          this.officerDetailPost.officer.workStatus=0;
+        }
+
+
+        console.log(this.officerDetailPost.officer)
+        console.log(this.officerDetailPost.subjects)
+        console.log(this.officerDetailPost.storageRooms)
+        axios
+          .post("http://localhost:3269/api/Officers/officerDetail",this.officerDetailPost)
+          .then((response) => {
+            this.$emit("closeDialog", "success");
+            console.log(response);
+          });
       }
     },
     editEmployee() {
-      this.validate();
+      if(this.validate()){
+        this.officerDetailPost.officer.officerID=this.officerDetail.officer.officerID;
+        this.officerDetailPost.officer.officerCode=this.txtEmployeeCode;
+        this.officerDetailPost.officer.officerName=this.txtEmployeeFullName;
+        this.officerDetailPost.officer.email=this.txtEmployeeEmail;
+        this.officerDetailPost.officer.phoneNumber=this.txtNumberPhone;
+        if(this.isTrain==true){
+          this.officerDetailPost.officer.emt=2;
+        }
+        else{
+          this.officerDetailPost.officer.emt=1;
+        }
+        if(this.isWork==true){
+          this.officerDetailPost.officer.workStatus=1;
+        }
+        else{
+          this.officerDetailPost.officer.workStatus=0;
+        }
+        console.log(this.officerDetailPost.officer)
+        console.log(this.officerDetailPost.subjects)
+        console.log(this.officerDetailPost.storageRooms)
+        axios
+          .put("http://localhost:3269/api/Officers/officerDetail",this.officerDetailPost)
+          .then((response) => {
+            this.$emit("closeDialog", "success");
+            console.log(response);
+          });
+      }
     },
     validate() {
       this.isValidate = [true, true, true, true];
@@ -253,6 +364,62 @@ export default {
       }
       return true;
     },
+    callAPI() {
+      if (this.type == "add") {
+        axios
+          .get("http://localhost:3269/api/Officers/NewCode")
+          .then((response) => {
+            this.txtEmployeeCode = response.data;
+          });
+      }      
+      if(this.type=="edit"){
+        this.officer=this.officerDetail.officer;
+        for(var i=0;i< this.officerDetail.subjects.length;i++){
+          this.subjects.push(this.officerDetail.subjects[i].subjectName) 
+        }
+        for(var j=0;j< this.officerDetail.storageRooms.length;j++){
+          this.storageRooms.push(this.officerDetail.storageRooms[j].storageRoomName) 
+        }
+
+        this.txtEmployeeCode=this.officer.officerCode;
+        this.txtEmployeeFullName=this.officer.officerName;
+        this.txtEmployeeEmail=this.officer.email;
+        this.txtNumberPhone=this.officer.phoneNumber;  
+
+        this.officer.emt>1 ? this.isTrain=true : this.isTrain=false;
+        this.officer.workStatus==1 ? this.isWork=true : this.isWork=false;
+      }
+      // get data to cbx Subject
+      axios.get("http://localhost:3269/api/Subjects").then((response) => {
+        for (var i = 0; i < response.data.length; i++) {
+          this.listOptionOfSubject.push(response.data[i]);
+          this.listOptionOfSubjectName.push(response.data[i].SubjectName)
+        }
+      });
+      //get data to cbx StorageRoom
+      axios.get("http://localhost:3269/api/StorageRooms").then((response) => {
+        for (var i = 0; i < response.data.length; i++) {
+          this.listOptionOfStorageRoom.push(response.data[i]);
+          this.listOptionOfStorageRoomName.push(response.data[i].StorageRoomName);
+        }
+      });
+      // get data to cbx Group
+      axios.get("http://localhost:3269/api/Groups").then((response) => {
+        for (var i = 0; i < response.data.length; i++) {
+          this.listOptionOfGroup.push(response.data[i]);
+          this.listOptionOfGroupName.push(response.data[i].GroupName);
+        }
+      });
+
+    },
+    groupToPost(ob){
+      for(var i=0;i<this.listOptionOfGroup.length;i++){
+        if(ob==this.listOptionOfGroup[i].GroupName){
+          this.officerDetailPost.officer.groupID=this.listOptionOfGroup[i].GroupID;
+          this.officerDetailPost.officer.groupName=this.listOptionOfGroup[i].GroupName;
+        }
+      }
+    }
   },
 };
 </script>
@@ -271,6 +438,20 @@ export default {
 .input-container {
   position: relative;
   display: block;
+}
+.dataTime span {
+  margin-left: 20px;
+  right: 0;
+}
+.dataTime {
+  position: absolute;
+  right: 16px;
+}
+.status{
+  display: flex;
+}
+.status{
+  line-height: 24px;
 }
 
 /* căn giữa các thành phần bên trong dialog  */

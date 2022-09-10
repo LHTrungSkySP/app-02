@@ -1,11 +1,14 @@
 <template>
   <div class="combobox__option grid">
-    <TheCheckBox :type="normal" :isCheckAll="isCheckAll" @check="toggleCheck"/>
-    <p>{{post }}</p>
+    <TheCheckBox
+        :isCheck="isSelected"
+        @checkBox="selectedRecord"
+      ></TheCheckBox>
+    <p>{{option}}</p>
   </div>
 </template>
 <script>
-import TheCheckBox from "@/components/base/TheCombobox/TheCheckBox.vue";
+import TheCheckBox from "@/components/base/TheCheckBox.vue";
 export default {
   name: "TheComboboxOption",
   data() {
@@ -13,32 +16,58 @@ export default {
       isSelected: false,
     };
   },
-  props: {
-    post: Object,
-    isCheckAll: Boolean,
+  created(){
+    for(var i=0;i<this.dataIn.length;i++){
+      if(this.option==this.dataIn[i]){
+        this.isSelected=true;
+      }
+    }
   },
+  props: [
+    //  option
+    "option",
+    // biết được thằng cha ra lệnh (vểnh tai lên nghe) - vì thằng con lúc đầu nghe cha 
+    //nhưng sau 1 vài thao tác 1 trong số nó lười ko nghe nữa, thằng cha phải nói lại
+    // nội dung cũ -> nội dung ko thay đổi ->phải lắng tai nghe.
+    "parentSpeak",
+    // nội dung thằng cha nói ( check all hay remove all)
+    "contentSpeak",
+
+    "parentSelect",
+    "dataIn",
+  ],
   components: {
     TheCheckBox,
   },
   watch: {
-    isCheckAll: function () {
-      this.isSelected = this.isCheckAll;
-      // selectedAll();
+ // if the parent speak (check all or remove check all for me) then:
+ parentSpeak: function(){
+      //thằng cha bảo check all
+      if(this.contentSpeak){
+        if(this.isSelected==false){// chưa được chọn thì chọn và báo cho thằng cha
+          this.$emit("selected", true,this.option); // gửi lên thằng cha tôi đã được select
+          this.isSelected=true;
+        }
+      }
+      //thằng cha bảo remove check all
+      else{
+        if(this.isSelected==true){// được chọn rồi thì bỏ chọn và báo cho thằng cha
+          this.$emit("selected", false,this.option); // gửi lên thằng cha tôi đã remove select
+          this.isSelected=false;
+        } 
+      }
     },
-    isSelected:function(){
-      this.$emit("conutSelected",this.isSelected,this.post);
-
-    }
+    parentSelect: function(){
+      if(this.option==this.parentSelect){
+        this.isSelected=false;
+      }
+    },
   },
 
   methods: {
-    // selectedAll(){
-    //   this.$emit("conutSelected",ischeck,this.post.option);
-    // },
-    toggleCheck: function(ischeck) {
-
-      this.isSelected = ischeck;
-
+    selectedRecord() {
+      this.isSelected = !this.isSelected;
+      this.$emit("selected", this.isSelected,this.option);
     },
   },
 };

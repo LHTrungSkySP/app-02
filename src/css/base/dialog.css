@@ -1,4 +1,6 @@
-
+#dialogFormEmployee{
+    z-index: 2;
+ }
 /* căn giữa các thành phần bên trong dialog  */
 .dialog{
     position:fixed;

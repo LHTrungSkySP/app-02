@@ -4,7 +4,7 @@
     <div class="navbar--left">
       <div class="input-container">
         <div class="input-include-icon">
-          <input type="text" class="input" />
+          <input type="text" class="input" v-model="keyword" @change="talkWithParent"/>
           <img
             class="input-icon icon--24"
             src="../../../../assets/Icons/Ic_seerch.png"
@@ -20,40 +20,79 @@
       <button class="btn btn--white">Xuất khẩu</button>
       <button
         id="delete-all"
-        class="btn btn-icon btn--white"
-        
+        class="btn btn-icon btn--white"        
       >
         <div class="icon"></div>
         <img @click="showDeleteAll" class="icon--24" src="../../../../assets/Icons/ic_More.png" alt="" />
-        <div @click="deleteAllSelected" class="btn__deleteAll" v-if="isShowBtnDeleteAll">
+        <div @click="showComfirm" class="btn__deleteAll" v-if="isShowBtnDeleteAll">
           <div class="icon icon-delete icon--24"></div>
           <p>Xóa</p>
         </div>
       </button>
     </div>
   </div>
+  <TheDialogConfirm 
+  title="Thông báo xác nhận xóa" 
+  msg="Bạn có chắc chắn muốn xóa các Cán bộ giáo viên mà bạn vừa chọn không ?" 
+  v-if="isShowComfirm"
+  type="delete"
+  @agree="deleteAllSelected"
+  @close="isShowComfirm=false"
+  />
+  <TheDialogEmployee 
+  title="Thêm cán bộ, nhân viên." 
+  type="add" v-if="isShowTheDialogEmployee" 
+  @closeDialog="closeTheDialogEmployee"
+  />
 </template>
 <script>
+import TheDialogEmployee from '../../dialog/TheDialogEmployee.vue';
+import TheDialogConfirm from '../../dialog/TheDialogConfirm.vue';
 export default {
   name: "TheHeaderEmployees",
-  props:{
-    // isShowDeleteAll: Boolean,
+  components:{
+    TheDialogEmployee,
+    TheDialogConfirm,
   },
+  props:["keywordParent"],
   data(){
     return{
       isShowBtnDeleteAll: false,
+      isShowTheDialogEmployee: false,
+      isShowComfirm: false,
+      isShowComfirmAdd: false,
+
+      // từ khóa để search (mã NV, họ tên, Số đt)
+      keyword: "",
     }
   },
   methods: {
+    // hieern thị xác nhận thêm
+    confirm(type){
+      this.$emit("confirm",type)
+    },
+    showComfirm(){
+      this.isShowComfirm=!this.isShowComfirm;
+    },
     showDialogAdd() {
-      this.$emit("showDialogAdd");
+      this.isShowTheDialogEmployee=true;
     },
     deleteAllSelected() {
+      this.isShowComfirm=false;
       this.$emit("deleteAllSelected");
     },
     showDeleteAll(){
       this.isShowBtnDeleteAll=!this.isShowBtnDeleteAll;
     },
+    closeTheDialogEmployee(status){
+      this.isShowTheDialogEmployee=false;
+      if(status=="success"){
+        this.$emit("reload");
+      }
+    },
+    talkWithParent(){
+      this.$emit("findByKeyword",this.keyword);
+    }
   },
 };
 </script>

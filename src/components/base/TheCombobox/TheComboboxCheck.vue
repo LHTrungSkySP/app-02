@@ -1,12 +1,6 @@
 <template>
   <div class="combobox" :class="{ 'col-4': isBig }">
     <div class="combobox__feild">
-      <input
-        v-model="txtGroup"
-        tabindex="5"
-        type="text"
-        class="input combobox__input"
-      />
       <button
         id="btn_to_bo_mon"
         class="combobox__btn btn-icon btn--white"
@@ -18,80 +12,94 @@
           alt=""
         />
       </button>
+      <TheContentSelect
+        v-for="selected in listSelected"
+        :key="selected"
+        :content="selected"
+        @remove="removeSelect"
+      />
     </div>
 
-    <div class="combobox__selector" v-if="isShowCbx">
+    <div class="combobox__selector" v-show="isShowCbx">
       <!-- header -->
       <div class="grid">
-        <TheCheckBox
-          :isCheckHeader="isCheckHeader"
-          type="header"
-          @toggleCheckAll="toggleCheckAll"
-        />
+        <TheCheckBox :isCheck="isCheckBoxHeader" @checkBox="checkBoxHeader" />
         <p>Tất cả</p>
       </div>
       <div class="sperate_row"></div>
       <!-- các sự lựa chọn  -->
+
       <TheComboboxOption
-        @conutSelected="conutSelected"
-        :isCheckAll="isCheckAll"
+        :parentSpeak="meSpeak"
+        :contentSpeak="contentSpeak"
+        @selected="countRecordBeSelected"
         v-for="post in this.listOption"
         :key="post"
-        :post="post"
+        :option="post"
+        :parentSelect="selectContent"
+        :dataIn="dataIn"
       />
     </div>
   </div>
 </template>
 <script>
-import TheCheckBox from "@/components/base/TheCombobox/TheCheckBox.vue";
+import TheCheckBox from "@/components/base/TheCheckBox.vue";
 import TheComboboxOption from "./TheComboboxOption.vue";
+import TheContentSelect from "./TheContentSelect.vue";
 export default {
   name: "TheCombobox",
   components: {
     TheCheckBox,
     TheComboboxOption,
+    TheContentSelect,
   },
   props: {
     listOption: Object,
     type: String,
+
+    dataIn: [],
+    parentSpeak: Boolean,
   },
   data() {
     return {
       isShowCbx: false,
       txtGroup: "",
-      // check toàn bộ không
-      isCheckAll: false,
-      // có check nút ở header ko
-      isCheckHeader: false,
-      // tổng row đc chọn
-      countSeleceted: 0,
+
+      // số lượng bản ghi được chọn
+      numberOfRecordsSelected: 0,
+
+      // trạng thái của check box header
+      isCheckBoxHeader: false,
+      // liên hệ vs các bản ghi con
+      meSpeak: false,
+      contentSpeak: false,
+
       // tổng nhân viên đc load trên trang
       countOption: this.listOption.length,
       isBig: false,
+
+      listSelected: [],
+      selectContent: "",
     };
   },
-  created() {    
-      if (this.type == "big") {
-        this.isBig = true;
+  created() {
+    if (this.type == "big") {
+      this.isBig = true;
+    }
+    if(this.dataIn!=[]){
+      for(var i=0;i<this.dataIn.length;i++){
+        this.numberOfRecordsSelected++;
+        // console.log(this.listOption.length)
+        if (this.numberOfRecordsSelected >= this.listOption.length) {
+          this.isCheckBoxHeader = true;
+        }
+        this.listSelected.push(this.dataIn[i]);
       }
-    },
+    }
+  },
   watch: {
-
-    countSeleceted: function () {
-      if (this.countSeleceted == 0) {
-        this.isCheckAll = false;
-        this.isCheckHeader = false;
-      } else if (this.countSeleceted < this.countOption) {
-        this.isCheckHeader = false;
-      }
-      // if(this.countSeleceted==0){
-      //   this.isCheckAll=false;
-      // }
-      else {
-        this.isCheckHeader = true;
-        this.isCheckAll = true;
-      }
-      //   this.isCheckAll=this.isCheckHeader;
+    parentSpeak: function(){
+      this.$emit("selectPost",this.listSelected);
     },
   },
   methods: {
@@ -103,14 +111,33 @@ export default {
       this.txtGroup = str;
     },
     // check all check box
-    toggleCheckAll() {
-      this.isCheckAll = !this.isCheckAll;
-      //   if (this.isCheckAll) {
-      //     this.countSeleceted = this.countOption;
-      //   } else {
-      //     this.countSeleceted = 0;
-      //   }
+    countRecordBeSelected(isSelected, option) {
+      if (isSelected) {
+        this.numberOfRecordsSelected++;
+        if (this.numberOfRecordsSelected == this.listOption.length) {
+          this.isCheckBoxHeader = true;
+        }
+        this.listSelected.push(option);
+        this.$emit("selectPost",this.listSelected);
+      } else {
+        this.numberOfRecordsSelected--;
+        if (this.numberOfRecordsSelected < this.listOption.length) {
+          this.isCheckBoxHeader = false;
+        }
+        this.listSelected.splice(this.listSelected.indexOf(option), 1);
+        this.$emit("selectPost",this.listSelected);
+      }
     },
+    checkBoxHeader() {
+      this.isCheckBoxHeader = !this.isCheckBoxHeader;
+      this.meSpeak = !this.meSpeak;
+      if (this.isCheckBoxHeader == true) {
+        this.contentSpeak = true;
+      } else {
+        this.contentSpeak = false;
+      }
+    },
+
     // count checkbox have selected
     conutSelected(isCheck, str) {
       if (isCheck) {
@@ -120,6 +147,14 @@ export default {
         this.txtGroup = this.txtGroup.replace(str + " ", "");
         this.countSeleceted--;
       }
+    },
+
+    removeSelect(content) {
+      this.listSelected.splice(this.listSelected.indexOf(content), 1);
+      this.selectContent=content;
+      this.numberOfRecordsSelected--;
+      this.isCheckBoxHeader = false;
+      this.$emit("selectPost",this.listSelected);
     },
   },
 };
@@ -143,5 +178,8 @@ export default {
   width: 80%;
   background-color: #ddd;
   margin: 10px auto;
+}
+.combobox>.combobox__feild{
+  min-height: unset;
 }
 </style>

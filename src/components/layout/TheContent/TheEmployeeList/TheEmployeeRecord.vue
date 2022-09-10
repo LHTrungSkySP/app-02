@@ -31,13 +31,15 @@
     </td>
     <td style="width: 80px">
       <div class="item-align--center">
-        <div @click="showDialogEdit" class="icon-edit icon"></div>
-        <div @click="showDialogAdd" class="icon-remove icon"></div>
+        <div @click="editDetailOfficer" class="icon-edit icon"></div>
+        <div @click="deleteOfficer" class="icon-remove icon"></div>
       </div>
     </td>
   </tr>
 </template>
 <script>
+// import axios from "axios";
+
 import TheCheckBox from "@/components/base/TheCheckBox.vue";
 export default {
   name: "TheOfficerList",
@@ -66,14 +68,15 @@ export default {
     "parentSpeak",
     // nội dung thằng cha nói ( check all hay remove all)
     "contentSpeak",
+    "toggleDeleteAll"
   ],
   created() {
-    if (this.officer.emt > 1) {
-      this.isTickTrained = true;
-    }
-    if (this.officer.workStatus == 1) {
-      this.isTickWorked = true;
-    }
+      if (this.officer.emt > 1) {
+        this.isTickTrained = true;
+      }
+      if (this.officer.workStatus == 1) {
+        this.isTickWorked = true;
+      }
   },
   watch: {
     // if the parent speak (check all or remove check all for me) then:
@@ -92,14 +95,26 @@ export default {
           this.isSelected=false;
         } 
       }
-    }
+    },
+    // lắng nghe khi user muốn xóa nhiều
+    toggleDeleteAll: function(){
+      if(this.isSelected==true){
+        this.$emit("getOfficerID",this.officer.officerID);
+      }
+    },
   },
   methods: {
     selectedRecord() {
       this.isSelected = !this.isSelected;
       this.$emit("selected", this.isSelected);
     },
-    
+    editDetailOfficer(){
+      this.$emit("editDetailOfficer",this.officerDetail);
+    },
+    deleteOfficer(){
+      // axios.delete("http://localhost:3269/api/Officers/"+this.officer.officerID);
+      this.$emit("deleteOfficer",this.officer.officerID);
+    }
   },
 };
 </script>
@@ -111,37 +126,3 @@ export default {
   background-color: #f5f6fa;
 }
 </style>
-<!-- 
-data() {
-  return {
-    isSelected: false,
-  };
-},
-props: {
-  post: Object,
-  isCheckAll: Boolean,
-},
-components: {
-  TheCheckBox,
-},
-watch: {
-  isCheckAll: function () {
-    this.isSelected = this.isCheckAll;
-  },
-},
-
-methods: {
-  // gửi sự kiện đc chọn lên Elist
-  toggleCheck(ischeck) {
-    this.isSelected = ischeck;
-    this.$emit("conutSelected",ischeck,this.post.OfficerCode);
-  },
-
-  
-  editOfficer(){
-    this.$emit("editOfficer",this.post.OfficerCode)
-  },
-  deleteOfficer(){
-    this.$emit("deleteOfficer",this.post.OfficerCode)
-  }
-}, -->

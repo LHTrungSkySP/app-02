@@ -1,5 +1,5 @@
 <template>
-  <div class="dialog-container confirm-box">
+  <div class="dialog-container confirm-box" style="z-index:2">
     <div class="dialog">
       <div class="dialog__content">
         <div class="header">
@@ -37,9 +37,7 @@ export default {
       this.$emit("close");
     },
     actionAgree() {
-      if (this.type == "delete") {
         this.$emit("agree");
-      }
     },
   },
 };
