@@ -105,13 +105,14 @@
             </div>
             <!-- row 3 -->
             <label class="dialog-grid__item">Tổ bộ môn</label>
-            <TheCombobox @selectPost="groupToPost" :parentSpeak="isPostAPI" :listOptionSelected="officer.groupName" :listOption="listOptionOfGroupName" />
+            <TheCombobox tabindex="5" @selectPost="groupToPost" :parentSpeak="isPostAPI" :listOptionSelected="officer.groupName" :listOption="listOptionOfGroupName" />
             <label class="dialog-grid__item">QL theo môn</label>
-            <TheComboboxCheck @selectPost="addSubjectPost" :dataIn="subjects" :listOption="listOptionOfSubjectName" />
+            <TheComboboxCheck tabindex="7" @selectPost="addSubjectPost" :dataIn="subjects" :listOption="listOptionOfSubjectName" />
             <!-- row 4 -->
             <label class="dialog-grid__item">QL kho, phòng</label>
             <!-- <div class="combobox col-4"> -->
             <TheComboboxCheck
+            tabindex="9"
             @selectPost="addStorageRoomPost"
             :dataIn="storageRooms"
               type="big"
@@ -122,11 +123,11 @@
             <!-- trạng thái đào tạo -->
             <div class="tick-status-employee dialog-grid__item">
               <div class="status">
-                <TheCheckBox @checkBox="isTrain=!isTrain" :isCheck="isTrain"/>
+                <TheCheckBox tabindex="10" @keydown.enter="isTrain=true" @checkBox="isTrain=!isTrain" :isCheck="isTrain"/>
                 <div>Trình độ nghiệp vụ QLTB</div>
               </div>
               <div class="status">
-                <TheCheckBox @checkBox="isWork=!isWork" :isCheck="isWork" />
+                <TheCheckBox tabindex="11" @keydown.enter="isWork=true" @checkBox="isWork=!isWork" :isCheck="isWork" />
                 <div>Đang làm việc</div>
               </div>
               <div class="dataTime">
@@ -138,8 +139,8 @@
             </div>
 
             <div class="footer dialog-grid__item">
-              <button @click="showComfirm" class="btn">Đồng ý</button>
-              <button @click="closeDialog" class="btn btn--white close-dialog">
+              <button tabindex="12" @click="showComfirm" class="btn">Đồng ý</button>
+              <button tabindex="12" @click="closeDialog" class="btn btn--white close-dialog">
                 Đóng
 
               </button>
@@ -149,7 +150,7 @@
       </div>
     </div>
   </div>
-  <TheDialogConfirm
+  <TheDialogConfirm 
   v-if="isShowConfirmAdd"
   title="Thông báo thêm mới"
   msg="Bạn có chắc chắn muốn thêm nhân viên bạn vừa nhập không?"

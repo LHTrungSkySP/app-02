@@ -1,5 +1,5 @@
 <template>
-  <div class="combobox" :class="{ 'col-4': isBig }">
+  <div ref="cbxParent" @keyup.down="ShowCbxByTab" @keyup.up="ShowCbxByTab" class="combobox" :class="{ 'col-4': isBig }">
     <div class="combobox__feild">
       <button
         id="btn_to_bo_mon"
@@ -17,13 +17,23 @@
         :key="selected"
         :content="selected"
         @remove="removeSelect"
+        v-show="!selectAll"
+      />
+      <TheContentSelect
+        content="Tất cả"
+        @remove="removeSelect();listSelected=[]"
+        v-show="selectAll"
       />
     </div>
-
-    <div class="combobox__selector" v-show="isShowCbx">
+    <div tabindex="8" ref="cbx"  
+    @keyup.enter="countRecordBeSelected(true,txtOption);this.isShowCbx=false;this.$refs.cbxParent.focus();"  
+    @keyup.down="posDown" 
+    @keyup.up="posUp" 
+    class="combobox__selector"
+     v-show="isShowCbx">
       <!-- header -->
-      <div class="grid">
-        <TheCheckBox :isCheck="isCheckBoxHeader" @checkBox="checkBoxHeader" />
+      <div class="grid" @click="checkBoxHeader()">
+        <TheCheckBox :isCheck="isCheckBoxHeader" @checkBox="checkBoxHeader();checkBoxHeader()" />
         <p>Tất cả</p>
       </div>
       <div class="sperate_row"></div>
@@ -38,6 +48,7 @@
         :option="post"
         :parentSelect="selectContent"
         :dataIn="dataIn"
+        :txtOption="txtOption"
       />
     </div>
   </div>
@@ -53,15 +64,11 @@ export default {
     TheComboboxOption,
     TheContentSelect,
   },
-  props: {
-    listOption: Object,
-    type: String,
-
-    dataIn: [],
-    parentSpeak: Boolean,
-  },
+  props: ["listOption","type","dataIn","parentSpeak"],
   data() {
     return {
+      selectAll: false,
+
       isShowCbx: false,
       txtGroup: "",
 
@@ -80,6 +87,10 @@ export default {
 
       listSelected: [],
       selectContent: "",
+
+      posFocus: -1,
+      txtOption: "",
+
     };
   },
   created() {
@@ -103,6 +114,22 @@ export default {
     },
   },
   methods: {
+    ShowCbxByTab(){
+        this.isShowCbx=true;
+        this.$refs.cbx.focus();
+      },
+    posDown(){
+        if(this.posFocus<this.listOption.length-1){
+          this.posFocus++;
+          this.txtOption=this.listOption[this.posFocus];
+        }
+      },
+      posUp(){
+        if(this.posFocus>=1){
+          this.posFocus--;
+          this.txtOption=this.listOption[this.posFocus];
+        }
+      },
     ShowCbx() {
       this.isShowCbx = !this.isShowCbx;
     },
@@ -116,6 +143,7 @@ export default {
         this.numberOfRecordsSelected++;
         if (this.numberOfRecordsSelected == this.listOption.length) {
           this.isCheckBoxHeader = true;
+          this.selectAll=true;
         }
         this.listSelected.push(option);
         this.$emit("selectPost",this.listSelected);
@@ -123,6 +151,7 @@ export default {
         this.numberOfRecordsSelected--;
         if (this.numberOfRecordsSelected < this.listOption.length) {
           this.isCheckBoxHeader = false;
+          this.selectAll=false;
         }
         this.listSelected.splice(this.listSelected.indexOf(option), 1);
         this.$emit("selectPost",this.listSelected);
@@ -135,17 +164,6 @@ export default {
         this.contentSpeak = true;
       } else {
         this.contentSpeak = false;
-      }
-    },
-
-    // count checkbox have selected
-    conutSelected(isCheck, str) {
-      if (isCheck) {
-        this.txtGroup += str + " ";
-        this.countSeleceted++;
-      } else {
-        this.txtGroup = this.txtGroup.replace(str + " ", "");
-        this.countSeleceted--;
       }
     },
 

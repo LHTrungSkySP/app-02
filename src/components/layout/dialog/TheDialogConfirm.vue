@@ -15,8 +15,8 @@
         </div>
         <div class="dialog__msg">{{ msg }}</div>
         <div class="footer">
-          <button @click="actionAgree" class="btn">Đồng ý</button>
-          <button @click="closeDialog" class="btn btn--white">Đóng</button>
+          <button tabindex="13" @click="actionAgree" class="btn">Đồng ý</button>
+          <button tabindex="13" @click="closeDialog" class="btn btn--white">Đóng</button>
         </div>
       </div>
     </div>
@@ -27,11 +27,7 @@ export default {
   name: "TheDialogConfirm",
   data() {},
   created() {},
-  props: {
-    title: String,
-    msg: String,
-    type: String,
-  },
+  props: ["title","msg","type"],
   methods: {
     closeDialog() {
       this.$emit("close");

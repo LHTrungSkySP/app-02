@@ -43,6 +43,7 @@
   title="Thêm cán bộ, nhân viên." 
   type="add" v-if="isShowTheDialogEmployee" 
   @closeDialog="closeTheDialogEmployee"
+  officerDetail=""
   />
 </template>
 <script>
@@ -54,7 +55,6 @@ export default {
     TheDialogEmployee,
     TheDialogConfirm,
   },
-  props:["keywordParent"],
   data(){
     return{
       isShowBtnDeleteAll: false,
@@ -68,9 +68,6 @@ export default {
   },
   methods: {
     // hieern thị xác nhận thêm
-    confirm(type){
-      this.$emit("confirm",type)
-    },
     showComfirm(){
       this.isShowComfirm=!this.isShowComfirm;
     },
@@ -79,7 +76,7 @@ export default {
     },
     deleteAllSelected() {
       this.isShowComfirm=false;
-      this.$emit("deleteAllSelected");
+      this.$emit('deleteAllSelected');
     },
     showDeleteAll(){
       this.isShowBtnDeleteAll=!this.isShowBtnDeleteAll;

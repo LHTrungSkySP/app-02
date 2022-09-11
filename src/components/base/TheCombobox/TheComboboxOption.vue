@@ -1,8 +1,8 @@
 <template>
-  <div class="combobox__option grid">
+  <div @click="selectedRecord()" class="combobox__option grid" :class="{'bg': isFocus}">
     <TheCheckBox
         :isCheck="isSelected"
-        @checkBox="selectedRecord"
+        @checkBox="selectedRecord();selectedRecord()"
       ></TheCheckBox>
     <p>{{option}}</p>
   </div>
@@ -14,6 +14,7 @@ export default {
   data() {
     return {
       isSelected: false,
+      isFocus: false,
     };
   },
   created(){
@@ -35,11 +36,32 @@ export default {
 
     "parentSelect",
     "dataIn",
+    "txtOption",
+    "havePicked",
   ],
   components: {
     TheCheckBox,
   },
   watch: {
+    txtOption: function(){
+      for(var i=0;i<this.dataIn.length;i++){
+        if(this.option==this.dataIn[i]){
+          this.isSelected=true;
+        }
+      }
+      if(this.txtOption==this.option){
+        this.isFocus=true;
+        this.isSelected=true;
+      }
+      else{
+        this.isFocus=false;
+        this.isSelected=false;
+
+      }
+    },
+    havePicked: function(){
+
+    },
  // if the parent speak (check all or remove check all for me) then:
  parentSpeak: function(){
       //thằng cha bảo check all
@@ -79,6 +101,13 @@ export default {
 }
 .combobox__option.grid {
   padding: 0;
-  background-color: #ffffff;
+}
+.combobox__option:hover{
+    background-color: #CCE8FF;
+    cursor: pointer;
+}
+.bg{
+  background-color: #CCE8FF !important;
+
 }
 </style>

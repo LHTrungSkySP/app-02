@@ -1,9 +1,9 @@
 <template>
-  <tr :class="{ 'bg-selected': isSelected }">
+  <tr @click="selectedRecord" @dblclick="editDetailOfficer" :class="{ 'bg-selected': isSelected }">
     <td>
       <TheCheckBox
         :isCheck="isSelected"
-        @checkBox="selectedRecord"
+        @checkBox="selectedRecord();selectedRecord()"
       ></TheCheckBox>
     </td>
     <td class="text-align--center">{{ officer.officerCode }}</td>
@@ -123,6 +123,6 @@ export default {
 @import url(@/css/base/table.css);
 @import url(@/css/base/icon.css);
 .bg-selected {
-  background-color: #f5f6fa;
+  background-color: #CCE8FF !important;
 }
 </style>

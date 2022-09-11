@@ -47,7 +47,7 @@
   />
 <TheDialogConfirm 
 v-show="isShowComfirm" 
-@close="isShowComfirm=false" 
+@close="function(){isShowComfirm=false}" 
 type="delete" 
 @agree="agreeDeleteOficer"
 title="Thông báo xác nhận xóa" 

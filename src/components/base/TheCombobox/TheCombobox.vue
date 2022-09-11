@@ -1,8 +1,7 @@
-<template>
-  <div class="combobox">
+<template>  
+  <div ref="cbxParent"  @keyup.down="ShowCbxByTab" class="combobox">
     <div class="combobox__feild">
-      <input v-model="txtGroup"
-        tabindex="5"
+      <input  v-model="txtGroup"
         type="text"
         class="input combobox__input"
       />
@@ -12,16 +11,16 @@
           src="../../../assets/Icons/ic_Chevron.png"
           alt=""
         />
-      </button>
+      </button>        
     </div>
-
-    <div id="cbx_to_bo_mon" class="combobox__selector" v-if="isShowCbx">
+    <div tabindex="6" ref="cbx"  @keyup.enter="this.$emit('selectPost',this.txtGroup);this.isShowCbx=false;"  @keyup.down="posDown" @keyup.up="posUp" id="cbx_to_bo_mon" class="combobox__selector" v-show="isShowCbx">
       <div 
-      class="combobox__option" 
+      class="combobox__option"      
       v-for="option in listOption" :key="option"
+      :class="{'bg': option==txtGroup}"
       @click="selectOption(option)" 
       >{{option}}</div>
-    </div>
+    </div>    
   </div>
 </template>
 <script>
@@ -37,6 +36,9 @@ export default {
       return{
         isShowCbx: false,
         txtGroup: this.listOptionSelected,
+
+        // ví trí focus
+        posFocus: -1,
       }
     },
     watch:{
@@ -50,13 +52,32 @@ export default {
     created() {
     },
     methods:{
-        ShowCbx(){
-            this.isShowCbx=!this.isShowCbx;
-        },
-        selectOption(str){
-            this.isShowCbx=false;
-            this.txtGroup=str;
+      posDown(){
+        if(this.posFocus<this.listOption.length-1){
+          this.posFocus++;
+          this.txtGroup=this.listOption[this.posFocus];
+
         }
+      },
+      posUp(){
+        if(this.posFocus>=1){
+          this.posFocus--;
+          this.txtGroup=this.listOption[this.posFocus];
+        }
+      },
+      ShowCbx(){
+        this.isShowCbx=!this.isShowCbx;
+      },
+      selectOption(str){
+        this.isShowCbx=false;
+        this.txtGroup=str;
+
+      },
+
+      ShowCbxByTab(){
+        this.isShowCbx=true;
+        this.$refs.cbx.focus();
+      }
         
 
     }
@@ -69,5 +90,8 @@ export default {
 .combobox>.combobox__feild>.combobox__btn{
   position: relative;
     top: -100%;
+}
+.bg{
+  background-color: #CCE8FF;
 }
 </style>

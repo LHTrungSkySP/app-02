@@ -1,9 +1,4 @@
 <template>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-  />
-
   <!-- thanh menu -->
   <div class="menu" :class="{ 'menu-small': !flagDragMenu }">
     <!-- tiêu đề trang -->
@@ -17,7 +12,7 @@
 
       </div>
       <div @click="dragMenu()" class="icon icon--24">
-        <i class="fas fa-bars"></i>
+        <span class="icon-expand"></span>
       </div>
     </div>
     <!-- tác vụ menu  -->

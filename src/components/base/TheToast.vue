@@ -1,18 +1,20 @@
-<template>  
+<template>
+  <div id="toast">
     <div class="toast" :class="[toast.color]">
       <div class="toast__icon">
-        <div class="icon icon--32 " :class="[toast.icon]"></div>
+        <div class="icon icon--32" :class="[toast.icon]"></div>
       </div>
       <div class="toast__content">
         <p class="title">
-          <b>{{toast.title}}</b>
+          <b>{{ toast.title }}</b>
         </p>
-        <span class="toast__msg">{{msg}}</span>
+        <span class="toast__msg">{{ msg }}</span>
       </div>
       <!-- <div class="toast__close toast__icon">
         <i class="fas fa-times"></i>
       </div> -->
     </div>
+  </div>
 </template>
 <script>
 export default {
@@ -20,7 +22,7 @@ export default {
   data() {
     return {
       listToast: [
-                {
+        {
           name: "warn",
           icon: "icon-warning",
           color: "toast-warning",
@@ -49,22 +51,19 @@ export default {
       toast: {},
     };
   },
-    props:{
+  props: {
     type: String,
     msg: String,
   },
-  created(){
-    for(var i=0;i<Object.keys(this.listToast).length;i++){
-      if(this.listToast[i].name==this.type){
-        this.toast=this.listToast[i];
+  created() {
+    for (var i = 0; i < Object.keys(this.listToast).length; i++) {
+      if (this.listToast[i].name == this.type) {
+        this.toast = this.listToast[i];
       }
       // break;
     }
   },
-    mounted(){
-
-  },
-
+  mounted() {},
 };
 </script>
 <style scoped>

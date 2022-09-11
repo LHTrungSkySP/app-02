@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <!-- Header các chức năng tùy chọn  -->
-    <TheHeaderEmployees @reload="callData_detailOfficers()" @findByKeyword="findByKeyword" @deleteAllSelected="toggleDeleteAll=!toggleDeleteAll"/>
+    <TheHeaderEmployees @reload="callData_detailOfficers()" @findByKeyword="findByKeyword()" @deleteAllSelected="toggleDeleteAll=!toggleDeleteAll"/>
     <!-- danh sách  -->
     <TheEmployeeList 
     :listDetailOfficers="listDetailOfficers" 
@@ -13,10 +13,12 @@
     <!-- chuyển trang  -->
     <ThePaging @changPage="changPage" :numberRecord="numberRecord" :pageCount="pageCount" />
   </div>
+  <TheToast v-if="false"/>
 </template>
 
 <script>
 import axios from "axios";
+import TheToast from "@/components/base/TheToast.vue";
 import TheHeaderEmployees from "./TheEmployeeList/TheHeaderEmployees.vue";
 import ThePaging from "./ThePaging.vue";
 import TheEmployeeList from "./TheEmployeeList/TheEmployeeList.vue";
@@ -25,7 +27,7 @@ export default {
   components: {
     TheEmployeeList,
     TheHeaderEmployees,
-    ThePaging,
+    ThePaging,TheToast,
   },
   data() {
     return {
@@ -67,7 +69,8 @@ export default {
     callAPI_deleteOfficers(id) {
         axios.delete("http://localhost:3269/api/Officers/"+id).then((res) => {
           console.log(res);
-          this.callData_detailOfficers();     
+          this.callData_detailOfficers();   
+
       });
     },
     deleteOneOfficer(id){

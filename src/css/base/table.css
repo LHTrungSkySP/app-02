@@ -13,11 +13,14 @@
     top: 0;
 }
 .table tr:hover{
-    background-color: #f5f6fa;
+    background-color: #E5F3FF;
+}
+.table tr:focus{
+    background-color: #CCE8FF;
 }
 .table td,.table th{
     height: 40px;
-    border: 1px solid #ddd;
+    border: 1px solid #D5D8E6;
     padding: 8px;
 
 

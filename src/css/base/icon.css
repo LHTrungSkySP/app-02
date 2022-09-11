@@ -72,3 +72,8 @@
 .icon-delete{
     background-image: url(../../assets/Icons/ic_delete.png);
 }
+.icon-expand{
+    background: url('../../assets/Icons/ic_sprites.svg') no-repeat -18px -18px;
+	width: 16px;
+	height: 14px;
+}
