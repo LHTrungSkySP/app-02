@@ -3,6 +3,8 @@ import TheDeviceContent from "./components/layout/TheDeviceContent/TheDeviceCont
 import TheOverview from "./components/layout/TheOverview/TheOverview.vue";
 import TheContent from "./components/layout/TheContent/TheContent.vue";
 import TheToast from "./components/base/TheToast.vue";
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.full'
 import { createRouter, createWebHistory } from "vue-router";
 import VueExcelXlsx from "vue-excel-xlsx";
 import App from './App.vue'
@@ -23,6 +25,7 @@ app.component("TheToast",TheToast);
 app
   .use(router)
   .use(VueExcelXlsx)
+  .use(ElementPlus)
 .mount("#app");
 
 

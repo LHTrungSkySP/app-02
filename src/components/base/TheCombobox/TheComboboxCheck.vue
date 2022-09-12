@@ -26,7 +26,7 @@
 
       </div>
     </div>
-    <div tabindex="8" ref="cbx"  
+    <div tabindex="8" ref="cbx" 
     @keyup.enter="countRecordBeSelected(true,txtOption);this.isShowCbx=false;this.$refs.cbxParent.focus();"  
     @keyup.down="posDown" 
     @keyup.up="posUp" 
@@ -39,6 +39,7 @@
       </div>
       <div class="sperate_row"></div>
       <!-- các sự lựa chọn  -->
+      <el-scrollbar max-height="150px" >
         <TheComboboxOption
           :parentSpeak="meSpeak"
           :contentSpeak="contentSpeak"
@@ -51,6 +52,8 @@
           :txtOption="txtOption"
           :havePicked="havePicked"
         />
+
+      </el-scrollbar>
     </div>
   </div>
 </template>
@@ -216,5 +219,16 @@ export default {
 }
 .combobox>.combobox__feild{
   min-height: unset;
+}
+.scrollbar-demo-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  margin: 10px;
+  text-align: center;
+  border-radius: 4px;
+  background: var(--el-color-primary-light-9);
+  color: var(--el-color-primary);
 }
 </style>
