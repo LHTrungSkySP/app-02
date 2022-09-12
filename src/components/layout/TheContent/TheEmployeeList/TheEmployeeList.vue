@@ -10,7 +10,7 @@
           </th>
           <th>Số hiệu cán bộ</th>
           <th>Học và tên</th>
-          <th>Số điện thoại</th>
+          <th style="width: 10%">Số điện thoại</th>
           <th>Tổ chuyên môn</th>
           <th>QL theo môn</th>
           <th>QL kho, phòng</th>
@@ -53,9 +53,15 @@ type="delete"
 title="Thông báo xác nhận xóa" 
   msg="Bạn có chắc chắn muốn xóa các Cán bộ giáo viên mà bạn vừa chọn không ?" 
 />
+<TheToast
+v-if="isShowToastSuccessEdit"
+title="Thành công"
+msg="Bạn đã sửa thành công nhân viên"
+type="success"
+/>
 </template>
 <script>
-
+import TheToast from "@/components/base/TheToast.vue";
 import TheEmployeeRecord from "./TheEmployeeRecord.vue";
 import TheCheckBox from "@/components/base/TheCheckBox.vue";
 import TheDialogEmployee from "../../dialog/TheDialogEmployee.vue";
@@ -68,6 +74,7 @@ export default {
     TheCheckBox,
     TheDialogEmployee,
     TheDialogConfirm,
+    TheToast,
   },
   created() {
   },
@@ -94,6 +101,7 @@ export default {
 
       // chi tiết nhân viên cần sửa
       officerDetail: Object,
+      isShowToastSuccessEdit: false
     };
   },
   watch: {
@@ -134,6 +142,10 @@ export default {
       this.isShowTheDialogEmployee=false;
       if(status=="success"){
         this.$emit("reload");
+        this.isShowToastSuccessEdit=true;
+        setTimeout(function () {
+          this.isShowToastSuccessEdit = false;
+        }.bind(this), 3000);
       }
     },
     showTheDialogEmployee(ob){

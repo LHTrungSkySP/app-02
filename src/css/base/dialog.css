@@ -26,11 +26,12 @@
     font-size: 16px;
 }
 
-.dialog__content img.close-dialog{
+.dialog__content div.close-dialog{
     position: absolute;
     right: 12px;
     top: 12px;
 }
+
 .dialog__content .dialog__msg-item{
     margin-bottom: 16px;
 }
@@ -80,7 +81,7 @@
 }
 .dialog-grid{
     display: grid;
-    grid-template-columns: 100px 180px 95px 250px;
+    grid-template-columns: 15% 25% 12% 41%;
     gap: 16px;
 
 }

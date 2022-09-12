@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <!-- Header các chức năng tùy chọn  -->
-    <TheHeaderEmployees @reload="callData_detailOfficers()" @findByKeyword="findByKeyword()" @deleteAllSelected="toggleDeleteAll=!toggleDeleteAll"/>
+    <TheHeaderEmployees :numberRecord="numberRecord" @reload="callData_detailOfficers()" @findByKeyword="findByKeyword" @deleteAllSelected="toggleDeleteAll=!toggleDeleteAll"/>
     <!-- danh sách  -->
     <TheEmployeeList 
     :listDetailOfficers="listDetailOfficers" 
@@ -13,7 +13,12 @@
     <!-- chuyển trang  -->
     <ThePaging @changPage="changPage" :numberRecord="numberRecord" :pageCount="pageCount" />
   </div>
-  <TheToast v-if="false"/>
+  <TheToast
+    title="Thành công"
+    msg="Xóa nhân viên thành công"
+    type="success"
+    v-if="isShowToastSuccessDelete"
+  />
 </template>
 
 <script>
@@ -40,6 +45,8 @@ export default {
       pageCount: Number,
       pageSize: 50,
       keyword: "",
+      isShowToastSuccessDelete:false,
+
 
       toggleDeleteAll: false,
     };
@@ -70,6 +77,10 @@ export default {
         axios.delete("http://localhost:3269/api/Officers/"+id).then((res) => {
           console.log(res);
           this.callData_detailOfficers();   
+          this.isShowToastSuccessDelete=true;
+          setTimeout(function () {
+          this.isShowToastSuccessDelete = false;
+        }.bind(this), 3000);  
 
       });
     },

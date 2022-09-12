@@ -24,7 +24,11 @@
     height: 16px;
     width: 16px;
     font-size: 16px;
-
+}
+.icon--12{
+    height: 12px;
+    width: 12px;
+    font-size: 12px;
 }
 .icon--32{
     height: 32px;
@@ -73,7 +77,57 @@
     background-image: url(../../assets/Icons/ic_delete.png);
 }
 .icon-expand{
-    background: url('../../assets/Icons/ic_sprites.svg') no-repeat -18px -18px;
+    background-image: url('../../assets/Icons/ic_sprites.svg') no-repeat -18px -18px;
 	width: 16px;
 	height: 14px;
 }
+.icon-closeDialog{
+    background-image: url('../../assets/Icons/ic_X_2.png');
+}
+.icon-closeOption__cbx{
+    background-image: url('../../assets/Icons/ic_X.png');
+}
+
+/* header  */
+.icon-Notify{
+    background-image: url(../../assets/Icons/ic_Notification_32.png);
+}
+.icon-show{
+    background-image: url(../../assets/Icons/ic_show.png);
+}
+.icon-Avatar_36{
+    background-image: url(../../assets/Icons/ic_Avatar_36.png);
+}
+
+
+/* content header  */
+.icon-search{
+    background-image: url(../../assets/Icons/Ic_seerch.png);
+}
+.icon-more{
+    background-image: url(../../assets/Icons/ic_More.png);
+}
+
+/* paging */
+.icon-MoveToFirst{
+    background-image: url(../../assets/Icons/ic_MoveToFirst.png);
+}
+.icon-back{
+    background-image: url(../../assets/Icons/ic_Back.png);
+}
+.icon-next{
+    background-image: url(../../assets/Icons/ic_Next.png);
+}
+.icon-MoveToLast{
+    background-image: url(../../assets/Icons/ic_MoveToLast.png);
+}
+
+/* cbx  */
+.icon-Chevron{
+    background-image: url(../../assets/Icons/ic_Chevron.png);
+}
+/* 
+
+
+<img src="../../../assets/Icons/ic_show.png" alt="" />
+<img src="../../../assets/Icons/ic_Avatar_36.png" alt="" /> */

@@ -3,13 +3,12 @@
     <TheMenu/>
     <div class="main">
       <TheHeader/>
-      <TheContent/>
+      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
-import TheContent from "./components/layout/TheContent/TheContent.vue";
 import TheMenu from "./components/layout/TheMenu/TheMenu.vue";
 import TheHeader from "./components/layout/TheHeader/TheHeader.vue";
 // import TheDialogDelete from "./components/layout/dialog/TheDialogDelete.vue";
@@ -24,7 +23,6 @@ export default {
   },
   components: {
     // TheDialogEmployeeVue,
-    TheContent,
     TheMenu,
     TheHeader,
     // TheDialogDelete,

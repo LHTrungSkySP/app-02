@@ -17,11 +17,23 @@
     <!-- navbar right  -->
     <div class="navbar--right">
       <button @click="showDialogAdd" class="btn">Thêm</button>
-      <button class="btn btn--white">Xuất khẩu</button>
+      <div >
+        <vue-excel-xlsx
+        :data="dataExport.data"
+        :columns="dataExport.columns"
+        :file-name="'filename'"
+        :file-type="'xlsx'"
+        :sheet-name="'sheetname'"
+        class="btn btn--white"
+      >
+        Xuất khẩu
+      </vue-excel-xlsx>
+      </div>
+      <!-- <button class="btn btn--white"></button> -->
       <button
         id="delete-all"
         class="btn btn-icon btn--white"        
-      >
+        >
         <div class="icon"></div>
         <img @click="showDeleteAll" class="icon--24" src="../../../../assets/Icons/ic_More.png" alt="" />
         <div @click="showComfirm" class="btn__deleteAll" v-if="isShowBtnDeleteAll">
@@ -39,22 +51,42 @@
   @agree="deleteAllSelected"
   @close="isShowComfirm=false"
   />
-  <TheDialogEmployee 
-  title="Thêm cán bộ, nhân viên." 
-  type="add" v-if="isShowTheDialogEmployee" 
-  @closeDialog="closeTheDialogEmployee"
-  officerDetail=""
+  <TheDialogEmployee
+    title="Thêm cán bộ, nhân viên."
+    type="add"
+    v-if="isShowTheDialogEmployee"
+    @closeDialog="closeTheDialogEmployee"
+    officerDetail=""
   />
+  <TheToast
+    type="success"
+    title="Thành công"
+    msg="Thêm mới nhân viên thành công"
+    v-if="isShowToastSuccessAdd"
+  ></TheToast>
+  <TheToast
+    type="fail"
+    title="Thất bại"
+    msg="Thêm mới nhân viên thất bại"
+    v-if="isShowToastSuccessAddFail"
+  ></TheToast>
 </template>
 <script>
+import TheToast from '@/components/base/TheToast.vue';
 import TheDialogEmployee from '../../dialog/TheDialogEmployee.vue';
 import TheDialogConfirm from '../../dialog/TheDialogConfirm.vue';
+import ExportStyle from "../../../../javascript/ExportStyle";
+import OfficerExport from "../../../../javascript/OfficerExport";
+// import Officer from '@/javascript/Employee';
+import axios from "axios";
 export default {
   name: "TheHeaderEmployees",
   components:{
     TheDialogEmployee,
     TheDialogConfirm,
+    TheToast,
   },
+  props:["numberRecord"],
   data(){
     return{
       isShowBtnDeleteAll: false,
@@ -62,11 +94,84 @@ export default {
       isShowComfirm: false,
       isShowComfirmAdd: false,
 
+      // định dạng file excel
+      dataExport: ExportStyle,
       // từ khóa để search (mã NV, họ tên, Số đt)
       keyword: "",
+
+      listDetailOfficers: Object,
+      stt:0,
+      officerExport: OfficerExport,
+      sortBy: "OfficerCode",
+      isShowToastSuccessAdd:false,
+      isShowToastSuccessAddFail: false,
+      tam:[],
     }
   },
+  created(){
+    this.callData_detailOfficers();
+  },
   methods: {
+    callData_detailOfficers() {
+      //   // gọi dữ liệu của nhân viên về
+        axios.get("http://localhost:3269/api/Officers/GetDetails?keyword=''&sortBy="+this.sortBy+"&pageSize="+this.numberRecord+"&pageNumber=1").then((res) => {
+        this.listDetailOfficers=res.data.listOfficerDetail;
+        for(var i=0;i<this.listDetailOfficers.length;i++){
+          // // console.log(this.dataExport.data)
+          var officer ={
+            stt: null,
+            officerCode: null,
+            officerName: null,
+            phoneNumber: null,
+            groupName: null,
+            subjects: null,
+            storageRooms: null,
+            emt: null,
+            workStatus: null,
+          }
+          var tam= res.data.listOfficerDetail[i].officer;
+        officer.stt=i+1;
+          officer.officerCode=tam.officerCode;
+          officer.officerName=tam.officerName;
+          officer.groupName=tam.groupName;
+          officer.phoneNumber=tam.phoneNumber;
+          // thêm môn
+          var listSubjectName=[];
+          for(var z=0;z<this.listDetailOfficers[i].subjects.length;z++){
+            listSubjectName.push(this.listDetailOfficers[i].subjects[z].subjectName)
+            // alert(this.listDetailOfficers[i].subjects[z].subjectName)
+          }
+          if(listSubjectName!=[]){
+            officer.subjects=listSubjectName.join(", ");
+          }
+          // thêm phòng kho
+          var listStorageRoomsName=[];
+          for(var j=0;j<this.listDetailOfficers[i].storageRooms.length;j++){
+            listStorageRoomsName.push(this.listDetailOfficers[i].storageRooms[j].storageRoomName)
+          }
+          if(listStorageRoomsName!=[]){
+           officer.storageRooms=listStorageRoomsName.join(", ");
+          }
+
+          if(tam.emt==2){
+            officer.emt="x";
+          }
+          else{
+           officer.emt="";
+          }
+          if(tam.workStatus==1){
+            officer.workStatus="x";
+          }
+          else{
+            officer.workStatus="";
+          }
+          this.tam.push(officer);
+        }
+        this.dataExport.data=this.tam;
+        console.log(this.dataExport.data)
+
+      });
+    },
     // hieern thị xác nhận thêm
     showComfirm(){
       this.isShowComfirm=!this.isShowComfirm;
@@ -82,13 +187,28 @@ export default {
       this.isShowBtnDeleteAll=!this.isShowBtnDeleteAll;
     },
     closeTheDialogEmployee(status){
-      this.isShowTheDialogEmployee=false;
-      if(status=="success"){
+      this.isShowTheDialogEmployee = false;
+      if (status == "success") {
+        this.isShowToastSuccessAdd=true;
+        setTimeout(function () {
+          this.isShowToastSuccessAdd = false;
+        }.bind(this), 3000);
         this.$emit("reload");
+      }
+      else if (status == "fail") {
+        this.isShowToastSuccessAddFail=true;
+        setTimeout(function () {
+          this.isShowToastSuccessAddFail = false;
+        }.bind(this), 3000);
       }
     },
     talkWithParent(){
       this.$emit("findByKeyword",this.keyword);
+    this.callData_detailOfficers();
+
+    },
+    abc(){
+      alert(this.keyword)
     }
   },
 };

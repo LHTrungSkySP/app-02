@@ -18,12 +18,13 @@
     <!-- tác vụ menu  -->
 
     <div class="menu__content">
-      <TheMenuItem
-        :flagDragMenu="flagDragMenu"
-        v-for="item in menuItem"
-        :key="item"
-        :title="item.title"
-        :icon="item.icon"
+      <TheMenuItem 
+      :flagDragMenu="flagDragMenu"
+      v-for="item in menuItem"
+      :key="item"
+      :title="item.title"
+      :icon="item.icon"
+      @click="gotoDevice(item.title)"
       />
     </div>
   </div>
@@ -51,6 +52,20 @@ export default {
   watch:{
   },
   methods: {
+    gotoDevice(title){
+      if(title=="Thiết bị"){
+        // this.$router.removeRoute();
+        this.$router.push('/device')
+      }
+      if(title=="Hệ thống"){
+        // this.$router.removeRoute();
+        this.$router.push('/')
+      }
+      if(title=="Tổng quan"){
+        // this.$router.removeRoute();
+        this.$router.push('/overview')
+      }
+    },
     dragMenu() {
       this.flagDragMenu = !this.flagDragMenu;
     },

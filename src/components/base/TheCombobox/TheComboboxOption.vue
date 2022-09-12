@@ -60,7 +60,7 @@ export default {
       }
     },
     havePicked: function(){
-
+      this.isSelected=false;
     },
  // if the parent speak (check all or remove check all for me) then:
  parentSpeak: function(){

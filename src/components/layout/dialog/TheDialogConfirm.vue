@@ -6,11 +6,9 @@
           <p class="title">
             <b>{{ title }}</b>
           </p>
-          <img
+          <div
             @click="closeDialog"
-            class="icon--24 close-dialog icon"
-            src="@/assets/Icons/ic_X_2.png"
-            alt=""
+            class="icon--24 icon-closeDialog icon close-dialog"
           />
         </div>
         <div class="dialog__msg">{{ msg }}</div>
@@ -34,6 +32,7 @@ export default {
     },
     actionAgree() {
         this.$emit("agree");
+        this.closeDialog();
     },
   },
 };

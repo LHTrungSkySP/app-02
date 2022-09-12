@@ -6,24 +6,25 @@
         class="combobox__btn btn-icon btn--white"
         @click="ShowCbx"
       >
-        <img
-          class="icon--24"
-          src="../../../assets/Icons/ic_Chevron.png"
-          alt=""
+        <div style="margin: auto;"
+          class="icon--24 icon icon-Chevron"
         />
       </button>
-      <TheContentSelect
-        v-for="selected in listSelected"
-        :key="selected"
-        :content="selected"
-        @remove="removeSelect"
-        v-show="!selectAll"
-      />
-      <TheContentSelect
-        content="Tất cả"
-        @remove="removeSelect();listSelected=[]"
-        v-show="selectAll"
-      />
+      <div class="option-container">
+        <TheContentSelect
+          v-for="selected in listSelected"
+          :key="selected"
+          :content="selected"
+          @remove="removeSelect"
+          v-show="!selectAll"
+        />
+        <TheContentSelect
+          content="Tất cả"
+          @remove="removeAll"
+          v-show="selectAll"
+        />
+
+      </div>
     </div>
     <div tabindex="8" ref="cbx"  
     @keyup.enter="countRecordBeSelected(true,txtOption);this.isShowCbx=false;this.$refs.cbxParent.focus();"  
@@ -38,18 +39,18 @@
       </div>
       <div class="sperate_row"></div>
       <!-- các sự lựa chọn  -->
-
-      <TheComboboxOption
-        :parentSpeak="meSpeak"
-        :contentSpeak="contentSpeak"
-        @selected="countRecordBeSelected"
-        v-for="post in this.listOption"
-        :key="post"
-        :option="post"
-        :parentSelect="selectContent"
-        :dataIn="dataIn"
-        :txtOption="txtOption"
-      />
+        <TheComboboxOption
+          :parentSpeak="meSpeak"
+          :contentSpeak="contentSpeak"
+          @selected="countRecordBeSelected"
+          v-for="post in this.listOption"
+          :key="post"
+          :option="post"
+          :parentSelect="selectContent"
+          :dataIn="dataIn"
+          :txtOption="txtOption"
+          :havePicked="havePicked"
+        />
     </div>
   </div>
 </template>
@@ -90,6 +91,7 @@ export default {
 
       posFocus: -1,
       txtOption: "",
+      havePicked: false,
 
     };
   },
@@ -103,6 +105,7 @@ export default {
         // console.log(this.listOption.length)
         if (this.numberOfRecordsSelected >= this.listOption.length) {
           this.isCheckBoxHeader = true;
+          this.selectAll=true;
         }
         this.listSelected.push(this.dataIn[i]);
       }
@@ -169,10 +172,24 @@ export default {
 
     removeSelect(content) {
       this.listSelected.splice(this.listSelected.indexOf(content), 1);
+      // console.log(this.listSelected)
       this.selectContent=content;
       this.numberOfRecordsSelected--;
       this.isCheckBoxHeader = false;
       this.$emit("selectPost",this.listSelected);
+    },
+    removeAll(){
+      for(var i=0;this.listSelected.length!=0;i++){
+        this.removeSelect(this.listSelected[i])
+        // console.log(this.listSelected.length)
+      }
+      this.selectAll=false;
+      this.havePicked=!this.havePicked;
+
+      // this.isCheckBoxHeader = false;
+      // this.listSelected=[];
+      // this.$emit("selectPost",this.listSelected);
+      // this.selectAll=false;
     },
   },
 };

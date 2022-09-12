@@ -68,3 +68,11 @@
     background-color: #CCE8FF;
     cursor: pointer;
 }
+.option-container{
+    position: absolute;
+    top: 0;
+    width: calc(100% - 32px);
+    height: 32px;
+    overflow: hidden;
+
+}

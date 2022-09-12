@@ -1,24 +1,20 @@
 <template>
-  <tr @click="selectedRecord" @dblclick="editDetailOfficer" :class="{ 'bg-selected': isSelected }">
+  <tr :class="{ 'bg-selected': isSelected }">
     <td>
       <TheCheckBox
         :isCheck="isSelected"
-        @checkBox="selectedRecord();selectedRecord()"
+        @checkBox="selectedRecord()"
       ></TheCheckBox>
     </td>
     <td class="text-align--center">{{ officer.officerCode }}</td>
-    <td>{{ officer.officerName }}</td>
+    <td style="color: #0dd469" @click="editDetailOfficer">{{ officer.officerName }}</td>
     <td>{{ officer.phoneNumber }}</td>
     <td>{{ officer.groupName }}</td>
     <td>
-      <span v-for="subject in subjects" :key="subject">
-        {{ subject.subjectName }}&nbsp;,
-      </span>
+      {{subjects}}
     </td>
     <td>
-      <span v-for="storageRoom in storageRooms" :key="storageRoom">
-        {{ storageRoom.storageRoomName }}&nbsp;,
-      </span>
+      {{storageRooms}}
     </td>
     <td>
       <div
@@ -55,7 +51,7 @@ export default {
       isTickWorked: false,
 
       officer: this.officerDetail.officer,
-      subjects: this.officerDetail.subjects,
+      subjects: Object,
       storageRooms: this.officerDetail.storageRooms,
     };
   },
@@ -71,6 +67,20 @@ export default {
     "toggleDeleteAll"
   ],
   created() {
+    //hiển thị môn
+      var tam=[];
+      for(var i=0;i<this.officerDetail.subjects.length;i++){
+        tam.push(this.officerDetail.subjects[i].subjectName);
+      }
+      this.subjects=tam.join(" ,");
+
+    //hiển thị kho phòng
+      for(i=0;i<this.officerDetail.storageRooms.length;i++){
+        tam.push(this.officerDetail.storageRooms[i].storageRoomName);
+      }
+      this.storageRooms=tam.join(" ,");
+
+    // hiển thị tình trạng đào tạo và làm việc
       if (this.officer.emt > 1) {
         this.isTickTrained = true;
       }

@@ -18,7 +18,7 @@
 export default {
     name: 'TheMenuSub',
     data(){
-        showMenuSub: true;
+        true;
     },
 
 }

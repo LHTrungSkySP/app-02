@@ -12,7 +12,7 @@
     position: sticky;    
     top: 0;
 }
-.table tr:hover{
+.table tbody tr:hover{
     background-color: #E5F3FF;
 }
 .table tr:focus{
@@ -46,16 +46,16 @@
 .icon-edit{
     background-image: url(../../assets/Icons/ic_Edit.png);
     display: inline-block;
-    height: 24px;
-    width: 24px;
+    height: 28px;
+    width: 28px;
     background-position: center;
     margin: auto;
 }
 .icon-remove{
     background-image: url(../../assets/Icons/ic_Remove.png);
     display: inline-block;
-    height: 24px; 
-    width: 24px;
+    height: 28px; 
+    width: 28px;
     background-position: center;
     margin: auto;
 }
