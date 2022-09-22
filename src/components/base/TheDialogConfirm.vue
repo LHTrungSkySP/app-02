@@ -39,9 +39,9 @@ export default {
 </script>
 
 <style scoped>
-@import url(../../../css/base/comfirm-box.css);
-@import url(../../../css/base/dialog.css);
-@import url(../../../css/base/button.css);
+@import url(@/css/base/comfirm-box.css);
+@import url(@/css/base/dialog.css);
+@import url(@/css/base/button.css);
 .title {
   font-size: 16px;
 }

@@ -11,8 +11,8 @@
           
 
       </div>
-      <div @click="dragMenu()" class="icon icon--24">
-        <span class="icon-expand"></span>
+      <div @click="dragMenu()" >
+        <span class="icon-expand icon icon--24"></span>
       </div>
     </div>
     <!-- tác vụ menu  -->

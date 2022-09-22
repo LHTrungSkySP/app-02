@@ -38,12 +38,19 @@ export default {
       positionPaging: 1,
     }
   },
-  props:["numberRecord","pageCount"],
-  
+  props:["numberRecord","pageCount","findEvent"],
+  watch:{
+    findEvent: function(){
+      this.positionPaging=1;
+      this.paging=1;
+      this.$emit('changPage',1);
+    }
+  },
   components: {
   },
   methods: {
     changePaging(){
+
       var tam=parseInt(this.paging);
       if(!isNaN(tam)){
         if(tam<=this.pageCount && tam>=1){
@@ -52,7 +59,7 @@ export default {
         }
       }
       else{
-        console.log("nguvl")
+        console.log("Nhập không đúng")
       }
     },
     pagingAdd(){

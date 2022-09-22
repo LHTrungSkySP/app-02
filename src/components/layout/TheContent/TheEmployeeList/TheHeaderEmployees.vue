@@ -4,7 +4,7 @@
     <div class="navbar--left">
       <div class="input-container">
         <div class="input-include-icon">
-          <input type="text" class="input" v-model="keyword" @change="talkWithParent"/>
+          <input type="text" class="input" v-model="keyword" @keyup="talkWithParent"/>
           <img
             class="input-icon icon--24"
             src="../../../../assets/Icons/Ic_seerch.png"
@@ -74,7 +74,7 @@
 <script>
 import TheToast from '@/components/base/TheToast.vue';
 import TheDialogEmployee from '../../dialog/TheDialogEmployee.vue';
-import TheDialogConfirm from '../../dialog/TheDialogConfirm.vue';
+import TheDialogConfirm from '../../../base/TheDialogConfirm.vue';
 import ExportStyle from "../../../../javascript/ExportStyle";
 import OfficerExport from "../../../../javascript/OfficerExport";
 // import Officer from '@/javascript/Employee';
@@ -109,12 +109,15 @@ export default {
     }
   },
   created(){
+  },
+  mounted(){
     this.callData_detailOfficers();
+
   },
   methods: {
     callData_detailOfficers() {
       //   // gọi dữ liệu của nhân viên về
-        axios.get("http://localhost:3269/api/Officers/GetDetails?keyword=''&sortBy="+this.sortBy+"&pageSize="+this.numberRecord+"&pageNumber=1").then((res) => {
+        axios.get("http://localhost:3269/api/Officers/GetDetails?sortBy="+this.sortBy+"&pageSize=1000&pageNumber=1").then((res) => {
         this.listDetailOfficers=res.data.listOfficerDetail;
         for(var i=0;i<this.listDetailOfficers.length;i++){
           // // console.log(this.dataExport.data)

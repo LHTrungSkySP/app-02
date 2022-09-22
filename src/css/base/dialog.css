@@ -52,7 +52,7 @@
     margin: 8px 0  ;
 }
 .dialog__content--left>.img-selected{ 
-    background-image: url(../../assets/Icons/bg_chonanh.png);
+    background-image: url(../../assets/Icons/default-avatar.png);
     background-position: center;
     margin: auto;
     height: 180px;

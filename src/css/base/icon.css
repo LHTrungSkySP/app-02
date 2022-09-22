@@ -77,9 +77,7 @@
     background-image: url(../../assets/Icons/ic_delete.png);
 }
 .icon-expand{
-    background-image: url('../../assets/Icons/ic_sprites.svg') no-repeat -18px -18px;
-	width: 16px;
-	height: 14px;
+    background: url(http://localhost:8080/img/ic_sprites.2cee3502.svg) no-repeat -18px -18px;
 }
 .icon-closeDialog{
     background-image: url('../../assets/Icons/ic_X_2.png');

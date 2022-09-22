@@ -6,17 +6,17 @@
       <div class="dialog__content">
         <!-- icon đóng dialog  -->
         <div
-            @click="closeDialog"
-            class="icon--24 icon-closeDialog icon close-dialog"
-          />
+          @click="closeDialog"
+          class="icon--24 icon-closeDialog icon close-dialog"
+        />
 
         <!-- phần chọn ảnh ở bên trái -->
         <div class="dialog__content--left">
           <div class="img-selected icon">
             <button class="btn">Chọn ảnh</button>
           </div>
-          <p class="title">{{txtEmployeeFullNameLeft}}</p>
-          <p>{{txtEmployeeCodeLeft}}</p>
+          <p class="title">{{ txtEmployeeFullNameLeft }}</p>
+          <p>{{ txtEmployeeCodeLeft }}</p>
         </div>
         <div class="seperate"></div>
         <!-- phần form bên phải      -->
@@ -26,7 +26,9 @@
               <p>{{ title }}</p>
             </div>
             <!-- row 1 -->
-            <label class="dialog-grid__item" for="">Số hiệu cán bộ <span style="color:red;">*</span></label>
+            <label class="dialog-grid__item" for=""
+              >Số hiệu cán bộ <span style="color: red">*</span></label
+            >
             <div class="input-container">
               <input
                 ref="EmloyeeCode"
@@ -41,15 +43,17 @@
               />
               <div class="input input-msg" v-if="!isValidate[0]">
                 <div id="triangle-right"></div>
-                <p>Số hiệu cán bộ không được bỏ trống.</p>
+                <p>{{txtErrorCode}}</p>
               </div>
-              <div class="input input-msg" v-if="!isValidate[1]">
+              <!-- <div class="input input-msg" v-if="!isValidate[1]">
                 <div id="triangle-right"></div>
                 <p>Số hiệu cán bộ đã tồn tại!</p>
-              </div>
+              </div> -->
             </div>
 
-            <label class="dialog-grid__item">Họ và tên <span style="color:red;">*</span></label>
+            <label class="dialog-grid__item"
+              >Họ và tên <span style="color: red">*</span></label
+            >
             <div class="input-container">
               <input
                 v-model="txtEmployeeFullName"
@@ -59,11 +63,11 @@
                 type="text"
                 class="input"
                 name-property="Học và tên"
-                :class="{ 'border--red': !isValidate[2] }"
+                :class="{ 'border--red': !isValidate[1] }"
               />
-              <div class="input input-msg" v-if="!isValidate[2]">
+              <div class="input input-msg" v-if="!isValidate[1]">
                 <div id="triangle-right"></div>
-                <p>Họ tên cán bộ không được bỏ trống.</p>
+                <p>{{txtErrorName}}</p>
               </div>
             </div>
 
@@ -79,7 +83,12 @@
                 type=""
                 class="input"
                 name-property="Số điện thoại"
+                :class="{ 'border--red': !isValidate[2] }"
               />
+              <div class="input input-msg" v-if="!isValidate[2]">
+                <div id="triangle-right"></div>
+                <p>{{txtErrorPhoneNumer}}</p>
+              </div>
             </div>
 
             <!-- email  -->
@@ -93,7 +102,12 @@
                 type="email"
                 class="input"
                 name-property="Email"
+                :class="{ 'border--red': !isValidate[3] }"
               />
+              <div class="input input-msg" v-if="!isValidate[3]">
+                <div id="triangle-right"></div>
+                <p>{{txtErrorEmail}}</p>
+              </div>
             </div>
             <!-- row 3 -->
             <label class="dialog-grid__item">Tổ bộ môn</label>
@@ -142,11 +156,16 @@
                 />
                 <div>Đang làm việc</div>
               </div>
-              <div class="dataTime">
-                <div class="input-container">
-                  <label for="">Ngày nghỉ việc</label>
+              <div class="dataTime" v-show="!isWork">
+                <div style="height: 30px;" class="input-container">
+                  <label style="position: relative;left: 16px;" for="">Ngày nghỉ việc</label>
                   <span>
-                    <input type="date" name="date">
+                    <el-date-picker
+                      v-model="datequit"
+                      type="date"
+                      placeholder="dd/mm/yyyy"
+                      :size="size"
+                    />
                   </span>
                 </div>
               </div>
@@ -190,7 +209,7 @@ import TheCombobox from "@/components/base/TheCombobox/TheCombobox.vue";
 import TheComboboxCheck from "@/components/base/TheCombobox/TheComboboxCheck.vue";
 import TheCheckBox from "@/components/base/TheCheckBox.vue";
 import Employee from "@/javascript/Employee";
-import TheDialogConfirm from "./TheDialogConfirm.vue";
+import TheDialogConfirm from "../../base/TheDialogConfirm.vue";
 // import Subject from "@/javascript/Subject";
 // import StorageRoom from "@/javascript/StorageRoom";
 import officerDetail from "@/javascript/OfficerDetail";
@@ -206,13 +225,12 @@ export default {
   },
   created() {
     this.callAPI();
-
   },
   mounted() {
     this.$refs.EmloyeeCode.focus();
   },
   props: ["type", "title", "officerDetail"],
- 
+
   data() {
     return {
       isShowConfirmEdit: false,
@@ -220,6 +238,7 @@ export default {
 
       isWork: false,
       isTrain: false,
+
       // combobox tổ bộ môn
       listOptionOfGroup: [],
       // combobox môn
@@ -231,8 +250,10 @@ export default {
       listOptionOfStorageRoomName: [],
       listOptionOfGroupName: [],
 
+      datequit: Date,
+
       // validate
-      isValidate: [true, true,true],
+      isValidate: [true, true, true,true],
 
       txtEmployeeCode: "",
       txtEmployeeFullName: "",
@@ -251,38 +272,40 @@ export default {
 
       employee: Employee,
       officerDetailPost: officerDetail,
+
+      txtErrorCode:"",
+      txtErrorName:"",
+      txtErrorPhoneNumer:"",
+      txtErrorEmail:"",
     };
   },
   watch: {
     groupPost: function () {
       // alert(this.groupPost)
     },
-    txtEmployeeFullName: function(){
-      if(this.txtEmployeeFullName!=""){
-        this.txtEmployeeFullNameLeft=this.txtEmployeeFullName;
-      }
-      else{
-        this.txtEmployeeFullNameLeft= "Họ và tên";
+    txtEmployeeFullName: function () {
+      if (this.txtEmployeeFullName != "") {
+        this.txtEmployeeFullNameLeft = this.txtEmployeeFullName;
+      } else {
+        this.txtEmployeeFullNameLeft = "Họ và tên";
       }
     },
-    txtEmployeeCode: function(){
-      if(this.txtEmployeeCode!=""){
-        this.txtEmployeeCodeLeft=this.txtEmployeeCode;
-      }
-      else{
-        this.txtEmployeeCodeLeft="Số hiệu cán bộ";
+    txtEmployeeCode: function () {
+      if (this.txtEmployeeCode != "") {
+        this.txtEmployeeCodeLeft = this.txtEmployeeCode;
+      } else {
+        this.txtEmployeeCodeLeft = "Số hiệu cán bộ";
       }
     },
   },
   methods: {
     showComfirm() {
-      if (this.validate()) {
         if (this.type == "add") {
           this.isShowConfirmAdd = true;
         } else if (this.type == "edit") {
           this.isShowConfirmEdit = true;
+          this.officerDetailPost.storageRooms
         }
-      }
     },
 
     addSubjectPost(ob) {
@@ -315,17 +338,13 @@ export default {
     closeDialog() {
       this.$emit("closeDialog");
     },
-    // actionAgree() {
-    //   this.isPostAPI=true;
-    //   if (this.type == "add") {
-    //     this.addEmployee();
-    //   } else {
-    //     this.editEmployee();
-    //   }
-    // },
-    addEmployee() {
-      // console.log(this.groupPost)
 
+    // <summary> gọi API add
+    // <prama>
+    // <return> trạng thái add (thành công hay thất bại)
+    // author: LHTrung
+    addEmployee() {
+      this.isValidate=[true, true, true,true];
       this.officerDetailPost.officer.officerCode = this.txtEmployeeCode;
       this.officerDetailPost.officer.officerName = this.txtEmployeeFullName;
       this.officerDetailPost.officer.email = this.txtEmployeeEmail;
@@ -349,50 +368,107 @@ export default {
           "http://localhost:3269/api/Officers/officerDetail",
           this.officerDetailPost
         )
-        .then((response) => {
-          if(response.status==207){
-            this.isValidate[1]=false;
-            this.$emit("closeDialog", "fail");
+        .then((response) => { // thành công
+          console.log(response);
+          this.$emit("closeDialog", "success");
+        })
+        .catch((res) =>{// thất bại
+          var data=res.response.data
+          console.log(data);
+          if(data.errorCode==2){ // validate dữ liệu không hợp lệ
+            for(var i=0;i<10;i++){
+              if(data.devMsg[i]!=undefined){
+                if(i==7){ // lỗi sai định dạng officerCode
+                  this.isValidate[0]=false;
+                  this.txtErrorCode=data.devMsg[i];
+                }
+                if(i==4){ // lỗi sai định dạng số điện thoại
+                  this.isValidate[2]=false;
+                  this.txtErrorPhoneNumer=data.devMsg[i];
+                }
+                if(i==5){ // lỗi sai địng dạng email
+                  this.isValidate[3]=false;
+                  this.txtErrorEmail=data.devMsg[i];
+                }
+              }
+            }
+            if(data.devMsg=="e003"){
+              this.isValidate[0]=false;
+              this.isValidate[1]=false;
+              this.txtErrorCode=data.userMsg;
+              this.txtErrorName=data.userMsg;
+            }
           }
-          else{
-            console.log(response);
-            this.$emit("closeDialog", "success");
+          if(data.errorCode==3){
+            this.isValidate[0]=false;
+            this.txtErrorCode=data.userMsg;
+          }
+        })
+      },
 
-          }
-        });
-    },
+    // <summary> gọi API insert
+    // <prama>
+    // <return> trạng thái insert (thành công hay thất bại)
+    // author: LHTrung
     editEmployee() {
-        this.officerDetailPost.officer.officerID =
-          this.officerDetail.officer.officerID;
-        this.officerDetailPost.officer.officerCode = this.txtEmployeeCode;
-        this.officerDetailPost.officer.officerName = this.txtEmployeeFullName;
-        this.officerDetailPost.officer.email = this.txtEmployeeEmail;
-        this.officerDetailPost.officer.phoneNumber = this.txtNumberPhone;
+      this.isValidate=[true, true, true,true];
+      this.officerDetailPost.officer.officerID =
+        this.officerDetail.officer.officerID;
+      this.officerDetailPost.officer.officerCode = this.txtEmployeeCode;
+      this.officerDetailPost.officer.officerName = this.txtEmployeeFullName;
+      this.officerDetailPost.officer.email = this.txtEmployeeEmail;
+      this.officerDetailPost.officer.phoneNumber = this.txtNumberPhone;
+
+      if (this.isTrain == true) {
+        this.officerDetailPost.officer.emt = 2;
+      } else {
+        this.officerDetailPost.officer.emt = 1;
+      }
+      if (this.isWork == true) {
+        this.officerDetailPost.officer.workStatus = 1;
+      } else {
+        this.officerDetailPost.officer.workStatus = 0;
+      }
+      console.log(this.officerDetailPost);
+      axios
+        .put(
+          "http://localhost:3269/api/Officers/officerDetail",
+          this.officerDetailPost
+        )
+        .then((response) => {
+          this.$emit("closeDialog", "success");
+          console.log(response);
+        })
+        .catch((res) =>{// thất bại
+          var data=res.response.data
+          console.log(data);
+          if(data.errorCode==2){ // validate dữ liệu không hợp lệ
+            for(var i=0;i<10;i++){
+              if(data.devMsg[i]!=undefined){
+                if(i==7){ // lỗi sai định dạng officerCode
+                  this.isValidate[0]=false;
+                  this.txtErrorCode=data.devMsg[i];
+                }
+                if(i==4){ // lỗi sai định dạng số điện thoại
+                  this.isValidate[2]=false;
+                  this.txtErrorPhoneNumer=data.devMsg[i];
+                }
+                if(i==5){ // lỗi sai địng dạng email
+                  this.isValidate[3]=false;
+                  this.txtErrorEmail=data.devMsg[i];
+                }
+              }
+            }
+          }
+          if(data.errorCode==3){
+            this.isValidate[0]=false;
+            this.txtErrorCode=data.devMsg;
+          }
+        })
         
-        if (this.isTrain == true) {
-          this.officerDetailPost.officer.emt = 2;
-        } else {
-          this.officerDetailPost.officer.emt = 1;
-        }
-        if (this.isWork == true) {
-          this.officerDetailPost.officer.workStatus = 1;
-        } else {
-          this.officerDetailPost.officer.workStatus = 0;
-        }
-        console.log(this.officerDetailPost);
-        axios
-          .put(
-            "http://localhost:3269/api/Officers/officerDetail",
-            this.officerDetailPost
-          )
-          .then((response) => {
-            this.$emit("closeDialog", "success");
-            console.log(response);
-          });
-      
     },
     validate() {
-      this.isValidate = [true, true,true];
+      this.isValidate = [true, true, true];
       if (this.txtEmployeeCode == "") {
         // alert("không được để trống Số hiệu cán bộ");
         this.isValidate[0] = false;
@@ -429,11 +505,20 @@ export default {
         this.txtEmployeeFullName = this.officer.officerName;
         this.txtEmployeeEmail = this.officer.email;
         this.txtNumberPhone = this.officer.phoneNumber;
-        this.officerDetailPost.officer.groupID = this.officerDetail.officer.groupID;
-    this.officerDetailPost.officer.groupName = this.officerDetail.officer.groupName;
+        this.officerDetailPost.officer.groupID =
+          this.officerDetail.officer.groupID;
+        this.officerDetailPost.officer.groupName =
+          this.officerDetail.officer.groupName;
+          
+          this.officerDetailPost.subjects=this.officerDetail.subjects;
+          this.officerDetailPost.storageRooms=this.officerDetail.storageRooms;
 
+          this.officerDetailPost.officer.quitDate=this.officerDetail.officer.quitDate;
+          this.quitDate="2022-09-07"
+console.log(this.officerDetailPost.officer)
         this.officer.emt > 1 ? (this.isTrain = true) : (this.isTrain = false);
-        this.officer.workStatus == 1  ? (this.isWork = true) : (this.isWork = false);
+        this.officer.workStatus == 1 ? (this.isWork = true): (this.isWork = false);
+        // console.log(this.officerDetail.officer);
       }
       // get data to cbx Subject
       axios.get("http://localhost:3269/api/Subjects").then((response) => {
@@ -462,9 +547,10 @@ export default {
     groupToPost(ob) {
       for (var i = 0; i < this.listOptionOfGroup.length; i++) {
         if (ob == this.listOptionOfGroup[i].GroupName) {
-          this.officerDetailPost.officer.groupID =this.listOptionOfGroup[i].GroupID;
-          this.officerDetailPost.officer.groupName =this.listOptionOfGroup[i].GroupName;
-          
+          this.officerDetailPost.officer.groupID =
+            this.listOptionOfGroup[i].GroupID;
+          this.officerDetailPost.officer.groupName =
+            this.listOptionOfGroup[i].GroupName;
         }
       }
     },

@@ -6,7 +6,7 @@
         @checkBox="selectedRecord()"
       ></TheCheckBox>
     </td>
-    <td class="text-align--center">{{ officer.officerCode }}</td>
+    <td class="text-align--left">{{ officer.officerCode }}</td>
     <td style="color: #0dd469" @click="editDetailOfficer">{{ officer.officerName }}</td>
     <td>{{ officer.phoneNumber }}</td>
     <td>{{ officer.groupName }}</td>
@@ -75,6 +75,7 @@ export default {
       this.subjects=tam.join(" ,");
 
     //hiển thị kho phòng
+    tam=[];
       for(i=0;i<this.officerDetail.storageRooms.length;i++){
         tam.push(this.officerDetail.storageRooms[i].storageRoomName);
       }
@@ -120,6 +121,7 @@ export default {
     },
     editDetailOfficer(){
       this.$emit("editDetailOfficer",this.officerDetail);
+      console.log(this.officerDetail)
     },
     deleteOfficer(){
       // axios.delete("http://localhost:3269/api/Officers/"+this.officer.officerID);

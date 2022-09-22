@@ -65,7 +65,7 @@ import TheToast from "@/components/base/TheToast.vue";
 import TheEmployeeRecord from "./TheEmployeeRecord.vue";
 import TheCheckBox from "@/components/base/TheCheckBox.vue";
 import TheDialogEmployee from "../../dialog/TheDialogEmployee.vue";
-import TheDialogConfirm from "../../dialog/TheDialogConfirm.vue";
+import TheDialogConfirm from "@/components/base/TheDialogConfirm.vue";
 export default {
   name: "TheEmployeeList",
   props: ["listDetailOfficers","toggleDeleteAll"],

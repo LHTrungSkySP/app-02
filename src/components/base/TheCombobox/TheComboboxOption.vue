@@ -1,8 +1,8 @@
 <template>
-  <div @click="selectedRecord()" class="combobox__option grid" :class="{'bg': isFocus}">
+  <div class="combobox__option grid" :class="{'bg': isFocus}">
     <TheCheckBox
         :isCheck="isSelected"
-        @checkBox="selectedRecord();selectedRecord()"
+        @checkBox="selectedRecord()"
       ></TheCheckBox>
     <p>{{option}}</p>
   </div>

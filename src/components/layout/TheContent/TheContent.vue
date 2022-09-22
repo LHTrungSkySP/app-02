@@ -11,7 +11,7 @@
     />
 
     <!-- chuyển trang  -->
-    <ThePaging @changPage="changPage" :numberRecord="numberRecord" :pageCount="pageCount" />
+    <ThePaging @changPage="changPage" :numberRecord="numberRecord" :pageCount="pageCount" :findEvent="resetPaging" />
   </div>
   <TheToast
     title="Thành công"
@@ -36,6 +36,8 @@ export default {
   },
   data() {
     return {
+      resetPaging: false,
+
       isShowComfirm:false,
 
       listDetailOfficers: Object,
@@ -90,6 +92,7 @@ export default {
     findByKeyword(k){
       this.keyword=k;
       this.callData_detailOfficers();
+      this.resetPaging=!this.resetPaging;
     },
   },
 };

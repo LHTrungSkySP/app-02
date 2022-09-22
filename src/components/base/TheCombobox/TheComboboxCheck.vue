@@ -1,14 +1,18 @@
 <template>
-  <div ref="cbxParent" @keyup.down="ShowCbxByTab" @keyup.up="ShowCbxByTab" class="combobox" :class="{ 'col-4': isBig }">
+  <div
+    ref="cbxParent"
+    @keyup.down="ShowCbxByTab"
+    @keyup.up="ShowCbxByTab"
+    class="combobox"
+    :class="{ 'col-4': isBig }"
+  >
     <div class="combobox__feild">
       <button
         id="btn_to_bo_mon"
         class="combobox__btn btn-icon btn--white"
         @click="ShowCbx"
       >
-        <div style="margin: auto;"
-          class="icon--24 icon icon-Chevron"
-        />
+        <div style="margin: auto" class="icon--24 icon icon-Chevron" />
       </button>
       <div class="option-container">
         <TheContentSelect
@@ -23,37 +27,46 @@
           @remove="removeAll"
           v-show="selectAll"
         />
-
       </div>
     </div>
-    <div tabindex="8" ref="cbx" 
-    @keyup.enter="countRecordBeSelected(true,txtOption);this.isShowCbx=false;this.$refs.cbxParent.focus();"  
-    @keyup.down="posDown" 
-    @keyup.up="posUp" 
-    class="combobox__selector"
-     v-show="isShowCbx">
+    <div
+      tabindex="8"
+      ref="cbx"
+      @keyup.enter="
+        countRecordBeSelected(true, txtOption);
+        this.isShowCbx = false;
+        this.$refs.cbxParent.focus();
+      "
+      @keyup.down="posDown"
+      @keyup.up="posUp"
+      class="combobox__selector"
+      v-show="isShowCbx"
+    >
       <!-- header -->
       <div class="grid" @click="checkBoxHeader()">
-        <TheCheckBox :isCheck="isCheckBoxHeader" @checkBox="checkBoxHeader();checkBoxHeader()" />
+        <TheCheckBox
+          :isCheck="isCheckBoxHeader"
+          @checkBox="
+            checkBoxHeader();
+            checkBoxHeader();
+          "
+        />
         <p>Tất cả</p>
       </div>
       <div class="sperate_row"></div>
       <!-- các sự lựa chọn  -->
-      <el-scrollbar max-height="150px" >
-        <TheComboboxOption
-          :parentSpeak="meSpeak"
-          :contentSpeak="contentSpeak"
-          @selected="countRecordBeSelected"
-          v-for="post in this.listOption"
-          :key="post"
-          :option="post"
-          :parentSelect="selectContent"
-          :dataIn="dataIn"
-          :txtOption="txtOption"
-          :havePicked="havePicked"
-        />
-
-      </el-scrollbar>
+      <TheComboboxOption
+        :parentSpeak="meSpeak"
+        :contentSpeak="contentSpeak"
+        @selected="countRecordBeSelected"
+        v-for="post in this.listOption"
+        :key="post"
+        :option="post"
+        :parentSelect="selectContent"
+        :dataIn="dataIn"
+        :txtOption="txtOption"
+        :havePicked="havePicked"
+      />
     </div>
   </div>
 </template>
@@ -68,7 +81,7 @@ export default {
     TheComboboxOption,
     TheContentSelect,
   },
-  props: ["listOption","type","dataIn","parentSpeak"],
+  props: ["listOption", "type", "dataIn", "parentSpeak"],
   data() {
     return {
       selectAll: false,
@@ -95,47 +108,46 @@ export default {
       posFocus: -1,
       txtOption: "",
       havePicked: false,
-
     };
   },
   created() {
     if (this.type == "big") {
       this.isBig = true;
     }
-    if(this.dataIn!=[]){
-      for(var i=0;i<this.dataIn.length;i++){
+    if (this.dataIn != []) {
+      for (var i = 0; i < this.dataIn.length; i++) {
         this.numberOfRecordsSelected++;
         // console.log(this.listOption.length)
         if (this.numberOfRecordsSelected >= this.listOption.length) {
           this.isCheckBoxHeader = true;
-          this.selectAll=true;
+          this.selectAll = true;
         }
         this.listSelected.push(this.dataIn[i]);
       }
     }
   },
   watch: {
-    parentSpeak: function(){
-      this.$emit("selectPost",this.listSelected);
+    parentSpeak: function () {
+      this.$emit("selectPost", this.listSelected);
     },
   },
   methods: {
-    ShowCbxByTab(){
-        this.isShowCbx=true;
-        this.$refs.cbx.focus();
-      },
-    posDown(){
-        if(this.posFocus<this.listOption.length-1){
-          this.posFocus++;
-          this.txtOption=this.listOption[this.posFocus];
-        }
-      },
-      posUp(){
-        if(this.posFocus>=1){
-          this.posFocus--;
-          this.txtOption=this.listOption[this.posFocus];
-        }
-      },
+    ShowCbxByTab() {
+      this.isShowCbx = true;
+      this.$refs.cbx.focus();
+    },
+    posDown() {
+      if (this.posFocus < this.listOption.length - 1) {
+        this.posFocus++;
+        this.txtOption = this.listOption[this.posFocus];
+      }
+    },
+    posUp() {
+      if (this.posFocus >= 1) {
+        this.posFocus--;
+        this.txtOption = this.listOption[this.posFocus];
+      }
+    },
     ShowCbx() {
       this.isShowCbx = !this.isShowCbx;
     },
@@ -149,18 +161,18 @@ export default {
         this.numberOfRecordsSelected++;
         if (this.numberOfRecordsSelected == this.listOption.length) {
           this.isCheckBoxHeader = true;
-          this.selectAll=true;
+          this.selectAll = true;
         }
         this.listSelected.push(option);
-        this.$emit("selectPost",this.listSelected);
+        this.$emit("selectPost", this.listSelected);
       } else {
         this.numberOfRecordsSelected--;
         if (this.numberOfRecordsSelected < this.listOption.length) {
           this.isCheckBoxHeader = false;
-          this.selectAll=false;
+          this.selectAll = false;
         }
         this.listSelected.splice(this.listSelected.indexOf(option), 1);
-        this.$emit("selectPost",this.listSelected);
+        this.$emit("selectPost", this.listSelected);
       }
     },
     checkBoxHeader() {
@@ -176,18 +188,18 @@ export default {
     removeSelect(content) {
       this.listSelected.splice(this.listSelected.indexOf(content), 1);
       // console.log(this.listSelected)
-      this.selectContent=content;
+      this.selectContent = content;
       this.numberOfRecordsSelected--;
       this.isCheckBoxHeader = false;
-      this.$emit("selectPost",this.listSelected);
+      this.$emit("selectPost", this.listSelected);
     },
-    removeAll(){
-      for(var i=0;this.listSelected.length!=0;i++){
-        this.removeSelect(this.listSelected[i])
+    removeAll() {
+      for (var i = 0; this.listSelected.length != 0; i++) {
+        this.removeSelect(this.listSelected[i]);
         // console.log(this.listSelected.length)
       }
-      this.selectAll=false;
-      this.havePicked=!this.havePicked;
+      this.selectAll = false;
+      this.havePicked = !this.havePicked;
 
       // this.isCheckBoxHeader = false;
       // this.listSelected=[];
@@ -217,7 +229,7 @@ export default {
   background-color: #ddd;
   margin: 10px auto;
 }
-.combobox>.combobox__feild{
+.combobox > .combobox__feild {
   min-height: unset;
 }
 .scrollbar-demo-item {
