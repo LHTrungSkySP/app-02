@@ -1,4 +1,4 @@
-# app-02
+# Frontend MISA
 
 ## Project setup
 ```
